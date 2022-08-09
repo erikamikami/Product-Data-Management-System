@@ -92,8 +92,12 @@
     <div class="pages">
       <nav class="page-nav">
         <ul class="pager">
-          <li class="previous"><a href="#">&larr; prev</a></li>
-          <li class="next"><a href="#">next &rarr;</a></li>
+          <span th:if="${pagination.page}!=1">
+            <li class="previous"><a th:href="@{/item/list?page=} + ${pagination.page-1}">&larr; prev</a></li>
+          </span>
+          <span th:if="${pagination.page}!=${pagination.totalPage}">
+            <li class="next"><a th:href="@{/item/list?page=} + ${pagination.page+1}">next &rarr;</a></li>
+          </span>
         </ul>
       </nav>
     </div>
