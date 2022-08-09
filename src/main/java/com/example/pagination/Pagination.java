@@ -41,25 +41,24 @@ public class Pagination {
 		return totalPage;
 	}
 
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
+	/**
+	 * 総ページ数は、１ページあたりの表示件数と総表示件数から求める
+	 * @param totalPage
+	 */
+	public void setTotalPage(int displaysPerPage, int totalDisplays) {
+		this.totalPage = totalDisplays / displaysPerPage;
+		
+		if(totalDisplays % displaysPerPage != 0) {
+			this.totalPage ++ ;
+		}
 	}
 
 	public int getTotalDisplays() {
 		return totalDisplays;
 	}
 
-	/**
-	 * 総表示件数は、１ページあたりの表示件数と総ページ数から求める
-	 * 
-	 * @param totalDisplays
-	 */
-	public void setTotalDisplays(int displaysPerPage, int totalDisplays) {
-		this.totalDisplays = totalDisplays / displaysPerPage;
-
-		if (totalDisplays % displaysPerPage != 0) {
-			totalDisplays++;
-		}
+	public void setTotalDisplays(int totalDisplays) {
+		this.totalDisplays = totalDisplays;
 	}
 
 }

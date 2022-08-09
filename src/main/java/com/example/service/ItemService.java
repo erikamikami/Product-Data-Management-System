@@ -31,8 +31,8 @@ public class ItemService {
 	 * @return
 	 */
 	public Pagination paging(Pagination pagination){
-		pagination.setTotalPage(itemRepository.countAllItems());
-		pagination.setTotalDisplays(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
+		pagination.setTotalDisplays(itemRepository.countAllItems());
+		pagination.setTotalPage(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
 		return pagination;
 	}
 

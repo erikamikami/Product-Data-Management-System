@@ -8,7 +8,7 @@
   SELECT count(*) FROM items;
 </select>
 
-<select id="findAll" resultType="com.example.entity.item" parameterType="com.example.pagination.Pagination">
+<select id="findAll" resultType="com.example.entity.Item" parameterType="com.example.pagination.Pagination">
   SELECT id, name, condition, category, brand_name, price, shipping, item_description
   FROM items
   ORDER BY id ASC
