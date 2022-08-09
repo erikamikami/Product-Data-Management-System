@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.repository.ItemRepository">
+
+<select id="countAllItems" resultType="int">
+  SELECT count(*) FROM items;
+</select>
+
+<select id="findAll" resultType="com.example.entity.item" parameterType="com.example.pagination.Pagination">
+  SELECT id, name, condition, category, brand_name, price, shipping, item_description
+  FROM items
+  ORDER BY id ASC
+  LIMIT #{displaysPerPage} OFFSET #{displaysPerPage}*(#{page}-1)
+</select>
+
+</mapper>

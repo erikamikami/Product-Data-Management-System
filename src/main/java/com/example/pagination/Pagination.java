@@ -10,10 +10,10 @@ import lombok.ToString;
 public class Pagination {
 
 	/** 現在のページ **/
-	private int page;
+	private int page = 1;
 
 	/** １ページあたりの表示件数 **/
-	private int displaysPerPage;
+	private int displaysPerPage = 30;
 
 	/** 総ページ数 **/
 	private int totalPage;

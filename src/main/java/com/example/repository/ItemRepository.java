@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.entity.Item;
 import com.example.pagination.Pagination;
 
 @Mapper
