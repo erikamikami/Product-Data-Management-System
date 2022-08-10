@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entity.Item;
 import com.example.pagination.Pagination;
@@ -34,6 +35,17 @@ public class ItemService {
 		pagination.setTotalDisplays(itemRepository.countAllItems());
 		pagination.setTotalPage(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
 		return pagination;
+	}
+	
+	/**
+	 * itemを登録する
+	 * @param item
+	 */
+	@Transactional
+	public void register(Item item) {
+		int id = itemRepository.findMaxId();
+		item.setId(++id);
+		itemRepository.insert(item);
 	}
 
 }
