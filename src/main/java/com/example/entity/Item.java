@@ -13,13 +13,13 @@ import lombok.ToString;
 @ToString
 public class Item {
 	
-	private String id;
+	private int id;
 	private String name;
-	private String condition;
+	private int condition;
 	private String category;
 	private String brandName;
 	private double price;
-	private String shipping;
+	private int shipping;
 	private String itemDescription;
 
 }
