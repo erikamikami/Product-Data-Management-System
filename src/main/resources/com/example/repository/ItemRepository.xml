@@ -15,7 +15,7 @@
   LIMIT #{displaysPerPage} OFFSET #{displaysPerPage}*(#{page}-1)
 </select>
 
-<select id="findMaxId" parameterType="int">
+<select id="findMaxId" resultType="int">
   SELECT max(id) FROM items;
 </select>
 
