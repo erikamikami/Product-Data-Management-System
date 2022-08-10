@@ -69,11 +69,9 @@
         <div class="col-sm-8">
           <select class="form-control">
             <option>-- parentCategory --</option>
-            <option>parentCategory1</option>
-            <option>parentCategory2</option>
-            <option>parentCategory3</option>
-            <option>parentCategory4</option>
-            <option>parentCategory5</option>
+            <span th:each="parentCategory : ${parentCategoryList}">
+              <option th:text="${parentCategory}"></option>
+            </span>
           </select>
         </div>
       </div>
