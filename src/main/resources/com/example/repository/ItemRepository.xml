@@ -15,4 +15,13 @@
   LIMIT #{displaysPerPage} OFFSET #{displaysPerPage}*(#{page}-1)
 </select>
 
+<select id="findMaxId" parameterType="int">
+  SELECT max(id) FROM items;
+</select>
+
+<insert id="insert" parameterType="com.example.entity.Item">
+  INSERT INTO items (id, name, condition, category, brand_name, price, shipping, item_description)
+  VALUES (#{id}, #{name}, #{condition}, #{category}, #{brandName}, #{price}, #{shipping}, #{itemDescription})
+</insert>
+
 </mapper>
