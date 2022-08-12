@@ -1,5 +1,9 @@
 package com.example.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,15 +15,33 @@ import lombok.ToString;
 public class ItemForm {
 	
 	private int id;
+	
+	@NotBlank(message = "error:may not be empty")
 	private String name;
-	private int condition;
+
+	@NotNull(message = "error:may not be empty")
+	private Integer condition;
+	
 	private String category;
+
+	@NotBlank(message = "error:may not be empty")
 	private String parentCategory;
+
+	@NotBlank(message = "error:may not be empty")
 	private String childCategory;
+
 	private String grandChild;
+
+	@NotBlank(message = "error:may not be empty")
 	private String brandName;
-	private double price;
-	private int shipping;
+	
+	@NotBlank(message = "error:may not be empty")
+	private String price;
+	
+	@NotNull(message = "error:may not be empty")
+	private Integer shipping;
+	
+	@NotBlank(message = "error:may not be empty")
 	private String itemDescription;
 	
 	
@@ -35,11 +57,11 @@ public class ItemForm {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getCondition() {
+	public Integer getCondition() {
 		return condition;
 	}
-	public void setCondition(String condition) {
-		this.condition = Integer.parseInt(condition);
+	public void setCondition(Integer condition) {
+		this.condition = condition;
 	}
 	public String getCategory() {
 		return category;
@@ -71,17 +93,17 @@ public class ItemForm {
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}
-	public double getPrice() {
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
-	public int getShipping() {
+	public Integer getShipping() {
 		return shipping;
 	}
-	public void setShipping(String shipping) {
-		this.shipping = Integer.parseInt(shipping);
+	public void setShipping(Integer shipping) {
+		this.shipping = shipping;
 	}
 	public String getItemDescription() {
 		return itemDescription;
