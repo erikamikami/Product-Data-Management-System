@@ -20,10 +20,16 @@ public interface CategoryRepository {
 	public List<Integer> findParentIdByParentCategory(String parentCategory);
 	
 	/**
-	 * parentIdからchildCategoryを取得
+	 * parentIdListからchildCategoryを取得
 	 * @return
 	 */
 	public List<String> findChildCategoryByParentCategoryId(List<Integer> parentIdList);
+	
+	/**
+	 * childCategoryの名前からchildIdListを取得
+	 * @return
+	 */
+	public List<Integer> findChildIdByChildCategory(String childCategory);
 	
 	
 	/**

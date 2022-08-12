@@ -47,7 +47,7 @@ public class CategoryService {
 	 * @return
 	 */
 	public Set<String> getGrandCategoryList(String childCategory){
-		List<Integer> childIdList = categoryRepository.findParentIdByParentCategory(childCategory);
+		List<Integer> childIdList = categoryRepository.findChildIdByChildCategory(childCategory);
 		List<String> grandCategoryList = categoryRepository.findGrandChildCategoryByChildCategoryId(childIdList);
 		Set<String> grandCategorySet = new TreeSet<>(grandCategoryList);
 		

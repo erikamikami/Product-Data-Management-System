@@ -16,10 +16,12 @@
 <select id="findParentIdByParentCategory" parameterType="String" resultType="Integer">
   SELECT id FROM category
   WHERE category_name = #{parentCategory}
+  AND parent_id IS NULL
+  AND name_all IS NULL
 </select>
 
 <!--　parentIdListからChildCategoryを取得　-->
-<select id="findChildCategoryByParentCategoryId" parameterType="int" resultType="String">
+<select id="findChildCategoryByParentCategoryId" parameterType="Integer" resultType="String">
   SELECT category_name FROM category
   WHERE parent_id IS NOT NULL 
   AND name_all IS NULL 
@@ -28,6 +30,14 @@
     #{item}
   </foreach>
   ORDER BY category_name ASC
+</select>
+
+<!-- childCategoryの名前からchildIdを取得 -->
+<select id="findChildIdByChildCategory" parameterType="String" resultType="Integer">
+  SELECT id FROM category
+  WHERE category_name = #{parentCategory}
+  AND parent_id IS NOT NULL
+  AND name_all IS NULL
 </select>
 
 <!-- ChildIdListからgrandCategoryを取得 -->
@@ -39,7 +49,7 @@
   <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
     #{item}
   </foreach>
-  
+  ORDER BY category_name ASC
 </select>
 
 </mapper>
