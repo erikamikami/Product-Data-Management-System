@@ -34,11 +34,24 @@ public class CategoryService {
 	@Transactional
 	public Set<String> getChildCategoryList(String parentCategory){
 		List<Integer> parentIdList = categoryRepository.findParentIdByParentCategory(parentCategory);
-		List<String> TemporaryChildCategoryList = categoryRepository.findChildCategoryByParentCategory(parentIdList);
-		Set<String> childCategoryList = new TreeSet<>(TemporaryChildCategoryList);
+		List<String> childCategoryList = categoryRepository.findChildCategoryByParentCategoryId(parentIdList);
+		Set<String> childCategorySet = new TreeSet<>(childCategoryList);
 		
-		return childCategoryList;
+		return childCategorySet;
 		
+	}
+	
+	/**
+	 * childCategoryからgrandCategoryを取得する
+	 * @param childCategory
+	 * @return
+	 */
+	public Set<String> getGrandCategoryList(String childCategory){
+		List<Integer> childIdList = categoryRepository.findParentIdByParentCategory(childCategory);
+		List<String> grandCategoryList = categoryRepository.findGrandChildCategoryByChildCategoryId(childIdList);
+		Set<String> grandCategorySet = new TreeSet<>(grandCategoryList);
+		
+		return grandCategorySet;
 	}
 	
 }

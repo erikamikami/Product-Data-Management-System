@@ -17,11 +17,28 @@ public class ItemRestController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	/**
+	 * parentCategoryを選択後、それに結びついたchildCategoryを提示
+	 * @param parentCategory
+	 * @return
+	 */
 	@RequestMapping("/getChildCategory")
 	public Set<String> getChildCategory(String parentCategory){
 		Set<String> childCategoryList = categoryService.getChildCategoryList(parentCategory);
 		
 		return childCategoryList;
+	}
+	
+	/**
+	 * childCategoryを選択後、それに結びついたbrandCategoryを提示
+	 * @param childCategory
+	 * @return
+	 */
+	@RequestMapping("/getGrandCategory")
+	public Set<String> getGrandcategory(String childCategory){
+		Set<String> grandCategoryList = categoryService.getGrandCategoryList(childCategory);
+		
+		return grandCategoryList;
 	}
 
 }

@@ -23,6 +23,14 @@ public interface CategoryRepository {
 	 * parentIdからchildCategoryを取得
 	 * @return
 	 */
-	public List<String> findChildCategoryByParentCategory(List<Integer> parentIdList);
+	public List<String> findChildCategoryByParentCategoryId(List<Integer> parentIdList);
+	
+	
+	/**
+	 * childIdからgrandCategoryを取得
+	 * @param chileIdList
+	 * @return
+	 */
+	public List<String> findGrandChildCategoryByChildCategoryId(List<Integer> chileIdList);
 
 }
