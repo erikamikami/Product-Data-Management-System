@@ -57,7 +57,7 @@ public class ItemController {
 	 */
 	@RequestMapping("/add")
 	public String toShowItemAddForm(Model model) {
-		Set<String> parentCategoryList = categoryService.getParentCategory();
+		Set<String> parentCategoryList = categoryService.getParentCategoryList();
 		model.addAttribute("parentCategoryList", parentCategoryList);
 		return "add";
 	}

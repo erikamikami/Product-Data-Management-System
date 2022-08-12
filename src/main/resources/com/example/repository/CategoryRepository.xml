@@ -5,9 +5,26 @@
 
 <mapper namespace="com.example.repository.CategoryRepository">
 
+<!--　parentCategoryを取得　-->
 <select id="findParentCategory" resultType="String">
   SELECT category_name FROM category 
   WHERE parent_id IS NULL AND name_all IS NULL
+  ORDER BY category_name ASC
+</select>
+
+<!-- parentCategoryの名前からparentIdを取得 -->
+<select id="findParentIdByParentCategory" parameterType="String" resultType="Integer">
+  SELECT id FROM category
+  WHERE category_name = #{parentCategory}
+</select>
+
+<!--　parentIdListからChildCategoryを取得　-->
+<select id="findChildCategoryByParentCategory" parameterType="int" resultType="String">
+  SELECT category_name FROM category
+  WHERE parent_id IS NOT NULL AND name_all IS NULL AND parent_id IN
+  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    #{item}
+  </foreach>
   ORDER BY category_name ASC
 </select>
 
