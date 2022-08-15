@@ -43,5 +43,12 @@ public interface ItemRepository {
 	 * @param item
 	 */
 	public void insert(Item item);
+	
+	
+	/**
+	 * itemを更新する
+	 * @param item
+	 */
+	public void update(Item item);
 
 }

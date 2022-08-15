@@ -112,8 +112,9 @@ public class ItemController {
 	 * @return
 	 */
 	@RequestMapping("/edit")
-	public String toShowEditForm(String id, Model model) {
+	public String toShowEditForm(@ModelAttribute("id") String id, Model model) {
 		Item item = itemService.getDetail(Integer.parseInt(id));
+		System.out.println(item);
 		model.addAttribute("item", item);
 		
 		String[] categoryArray = item.getCategory().split("/");
@@ -137,6 +138,19 @@ public class ItemController {
 		model.addAttribute("grandCategoryList", grandCategoryList);
 		
 		return "edit";
+	}
+	
+	@RequestMapping("/edit/comp")
+	public String itemEdit(@Validated ItemForm itemForm, BindingResult result, RedirectAttributes redirectAttribute) {
+		if(result.hasErrors()) {
+			System.out.println(itemForm);
+			redirectAttribute.addFlashAttribute(itemForm);
+			redirectAttribute.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(itemForm), result);
+			redirectAttribute.addFlashAttribute("id", itemForm.getId());
+			return "redirect:/item/edit";
+		}
+		
+		return null;
 	}
 
 }

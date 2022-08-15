@@ -30,4 +30,16 @@
   VALUES (#{id}, #{name}, #{condition}, #{category}, #{brandName}, #{price}, #{shipping}, #{itemDescription})
 </insert>
 
+<update id="update" parameterType="com.example.entity.Item">
+  UPDATE items SET 
+  name = #{name}
+  ,condition = #{condition}
+  ,category = #{category}
+  ,brand_name = #{brand_name}
+  ,price = #{price}
+  ,shipping = #{shipping}
+  ,item_description = #{itemDescription}
+  WHERE id = #{id}
+</update>
+
 </mapper>

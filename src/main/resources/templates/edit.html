@@ -46,15 +46,16 @@
     <h2>Edit</h2>
 
     <!-- edit form -->
-    <form action="#" method="POST" class="form-horizontal" th:object="${itemForm}">
+    <form th:action="@{/item/edit/comp}" method="POST" class="form-horizontal" th:object="${itemForm}">
         <!-- id -->
-        <input type="hidden" name="id" value="${item.id}" th:field="*{id}">
+        <input type="hidden" name="id" th:value="${item.id}">
         <!-- name -->
         <div class="form-group">
           <label for="inputName" class="col-sm-2 control-label">name</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="inputName" name="name" th:value="${item.name}">
           </div>
+          <span th:errors="*{name}" class="text-danger"></span>
         </div>
         <!-- price -->
         <div class="form-group">
@@ -62,6 +63,7 @@
           <div class="col-sm-8">
             <input type="text" class="form-control" id="price" name="price" th:value="${item.price}"> 
           </div>
+          <span th:errors="*{price}" class="text-danger"></span>
         </div>
         <!-- category -->
       <div class="form-group">
@@ -104,6 +106,7 @@
           <label for="brand" class="col-sm-2 control-label">brand</label>
           <div class="col-sm-8">
             <input type="text" id="brand" class="form-control" name="brandName" th:value="${item.brandName}">
+            <span th:errors="*{brandName}" class="text-danger"></span>
           </div>
         </div>
         <!-- condition -->
@@ -119,14 +122,34 @@
             <label for="condition3" class="radio-inline">
               <input type="radio" name="condition" id="condition3" value="3" th:checked="${item.condition}==3"> 3
             </label>
+            <span th:errors="*{condition}" class="text-danger"></span>
           </div>
         </div>
+        <!-- shipping -->
+      <div class="form-group">
+        <label for="shipping" class="col-sm-2 control-label">shipping</label>
+        <div class="col-sm-8">
+          <label for="shipping1" class="radio-inline">
+            <input type="radio" name="shipping" id="shipping1" value="0" th:checked="${item.shipping}==0"> 0
+          </label>
+          <label for="shipping2" class="radio-inline">
+            <input type="radio" name="shipping" id="shipping2" value="1" th:checked="${item.shipping}==1"> 1
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="category" class="col-sm-2 control-label"></label>
+        <div class="col-sm-8">
+          <span th:errors="*{shipping}" class="text-danger"></span>
+        </div>
+      </div>
         <!-- description -->
         <div class="form-group">
           <label for="description" class="col-sm-2 control-label">description</label>
           <div class="col-sm-8">
-            <textarea name="description" id="description" class="form-control" rows="5" th:if="${item.itemDescription}!=null" th:text="${item.itemDescription}">
+            <textarea name="itemDescription" id="description" class="form-control" rows="5" th:if="${item.itemDescription}!=null" th:text="${item.itemDescription}">
             </textarea>
+            <span th:errors="*{itemDescription}" class="text-danger"></span>
           </div>
         </div>
         <!-- submit button -->
