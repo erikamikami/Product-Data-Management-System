@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.example.entity.Item;
 import com.example.pagination.Pagination;
 import com.example.repository.ItemRepository;
 
@@ -69,6 +70,20 @@ class ItemServiceTest {
 		assertEquals(expected.getTotalDisplays(), actual.getTotalDisplays());
 		assertEquals(totalPage, actual.getTotalPage());
 		
+	}
+	
+	@Test
+	@DisplayName("itemを登録できているか")
+	public void registerTest() {
+		// 戻り値作成
+		int id = 1482534;
+		when(itemRepository.findMaxId()).thenReturn(id);
+		
+		// 新規登録するitem作成
+		Item item = new Item(0, "商品名", 1, "商品カテゴリ", "ブランド名", 52.0, 0, "商品説明");
+		
+		// 実際
+		itemService.register(item);
 	}
 
 }
