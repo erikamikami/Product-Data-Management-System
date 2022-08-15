@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.entity.Item;
@@ -65,7 +66,7 @@ public class ItemController {
 	 * @return
 	 */
 	@RequestMapping("/detail")
-	public String toShowItemDetail(String id, Model model) {
+	public String toShowItemDetail(@RequestParam("id") String id, Model model) {
 		Item item = itemService.getDetail(Integer.parseInt(id));
 		model.addAttribute("item", item);
 		return "detail";
@@ -92,7 +93,6 @@ public class ItemController {
 		if(result.hasErrors()) {
 			redirectAttribute.addFlashAttribute(itemForm);
 			redirectAttribute.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(itemForm), result);
-			System.out.println(result);
 			return "redirect:/item/add";
 		}
 		
@@ -112,9 +112,8 @@ public class ItemController {
 	 * @return
 	 */
 	@RequestMapping("/edit")
-	public String toShowEditForm(@ModelAttribute("id") String id, Model model) {
+	public String toShowEditForm(@RequestParam("id") String id, Model model) {
 		Item item = itemService.getDetail(Integer.parseInt(id));
-		System.out.println(item);
 		model.addAttribute("item", item);
 		
 		String[] categoryArray = item.getCategory().split("/");
@@ -140,17 +139,31 @@ public class ItemController {
 		return "edit";
 	}
 	
+	/**
+	 * itemを編集する
+	 * @param itemForm
+	 * @param result
+	 * @param redirectAttribute
+	 * @return
+	 */
 	@RequestMapping("/edit/comp")
 	public String itemEdit(@Validated ItemForm itemForm, BindingResult result, RedirectAttributes redirectAttribute) {
 		if(result.hasErrors()) {
-			System.out.println(itemForm);
 			redirectAttribute.addFlashAttribute(itemForm);
 			redirectAttribute.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(itemForm), result);
-			redirectAttribute.addFlashAttribute("id", itemForm.getId());
+			redirectAttribute.addAttribute("id", itemForm.getId());
 			return "redirect:/item/edit";
 		}
 		
-		return null;
+		itemForm.setCategory(itemForm.getParentCategory(), itemForm.getChildCategory(), itemForm.getGrandChild());
+		Item item = new Item();
+		BeanUtils.copyProperties(itemForm, item);
+		item.setPrice(Double.parseDouble(itemForm.getPrice()));
+		
+		itemService.edit(item);
+		
+		redirectAttribute.addAttribute("id", itemForm.getId());
+		return "redirect:/item/detail";
 	}
 
 }

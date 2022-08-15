@@ -32,7 +32,6 @@ public class ItemForm {
 
 	private String grandChild;
 
-	@NotBlank(message = "error:may not be empty")
 	private String brandName;
 	
 	@NotBlank(message = "error:may not be empty")

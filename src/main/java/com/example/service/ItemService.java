@@ -57,5 +57,13 @@ public class ItemService {
 		item.setId(++id);
 		itemRepository.insert(item);
 	}
+	
+	/**
+	 * itemを編集する
+	 * @param item
+	 */
+	public void edit(Item item) {
+		itemRepository.update(item);
+	}
 
 }

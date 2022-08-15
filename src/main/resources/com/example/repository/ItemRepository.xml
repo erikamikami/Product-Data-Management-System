@@ -35,7 +35,7 @@
   name = #{name}
   ,condition = #{condition}
   ,category = #{category}
-  ,brand_name = #{brand_name}
+  ,brand_name = #{brandName}
   ,price = #{price}
   ,shipping = #{shipping}
   ,item_description = #{itemDescription}
