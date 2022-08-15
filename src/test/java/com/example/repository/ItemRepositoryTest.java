@@ -91,7 +91,6 @@ class ItemRepositoryTest {
 	}
 	
 	@Test
-<<<<<<< HEAD
 	@DisplayName("idからitemを取得できているか")
 	public void findById() {
 		// 期待値
@@ -105,7 +104,7 @@ class ItemRepositoryTest {
 		
 		// 結果
 		assertEquals(expected.toString(), actual.toString());
-=======
+	}
 	@DisplayName("idの最大値を取得できているか")
 	public void findMaxIdTest() {
 		// 期待値
@@ -137,7 +136,6 @@ class ItemRepositoryTest {
 		int afterInsertCntExpected = 1482536; //登録前の登録件数期待値
 		int afterInsertCntActual = itemRepository.countAllItems();
 		assertEquals(afterInsertCntExpected, afterInsertCntActual);
->>>>>>> main
 		
 	}
 

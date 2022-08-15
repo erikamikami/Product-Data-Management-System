@@ -106,5 +106,37 @@ public class ItemController {
 		return "redirect:/item/list";
 	}
 
+	/**
+	 * item情報編集画面遷移
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/edit")
+	public String toShowEditForm(String id, Model model) {
+		Item item = itemService.getDetail(Integer.parseInt(id));
+		model.addAttribute("item", item);
+		
+		String[] categoryArray = item.getCategory().split("/");
+		
+		// parentCategory
+		String originalParentCategory = categoryArray[0];
+		Set<String> parentCategoryList = categoryService.getParentCategoryList();
+		model.addAttribute("originalParentCategory", originalParentCategory);
+		model.addAttribute("parentCategoryList", parentCategoryList);
+		
+		// childCategory
+		String originalChildCategory = categoryArray[1];
+		Set<String> childCategoryList = categoryService.getChildCategoryList(originalParentCategory);
+		model.addAttribute("originalChildCategory", originalChildCategory);
+		model.addAttribute("childCategoryList", childCategoryList);
+		
+		// grandCategory
+		String originalGrandCategory = categoryArray[2];
+		Set<String> grandCategoryList = categoryService.getGrandCategoryList(originalChildCategory);
+		model.addAttribute("originalGrandCategory", originalGrandCategory);
+		model.addAttribute("grandCategoryList", grandCategoryList);
+		
+		return "edit";
+	}
 
 }

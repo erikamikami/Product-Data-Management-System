@@ -9,6 +9,10 @@ $(function() {
 		while (childCategoryOption.lastChild) {
 			childCategoryOption.removeChild(childCategoryOption.lastChild);
 		}
+		let grandCategory = document.getElementById("grandCategory");
+		while(grandCategory.lastChild){
+			grandCategory.removeChild(grandCategory.lastChild);
+		};
 		$.ajax({
 			url: url,
 			type: 'post',
