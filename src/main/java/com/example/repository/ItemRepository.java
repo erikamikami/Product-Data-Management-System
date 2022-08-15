@@ -3,9 +3,9 @@ package com.example.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entity.Item;
+import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 
 @Mapper
@@ -48,6 +48,22 @@ public interface ItemRepository {
 	 * @param item
 	 */
 	public void update(Item item);
+	
+	
+	/**
+	 * itemを検索する
+	 * 
+	 * 検索項目
+	 * ・name
+	 * ・parentCayegory
+	 * ・childCategory
+	 * ・grandChild
+	 * ・brandName
+	 * 
+	 * @param item
+	 * @return
+	 */
+	public List<Item> search(ItemSearchForm itemSearchForm);
 
 
 }

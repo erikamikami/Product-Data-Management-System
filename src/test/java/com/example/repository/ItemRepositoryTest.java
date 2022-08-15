@@ -1,6 +1,6 @@
 package com.example.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
 import com.example.entity.Item;
+import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 
 @MybatisTest
@@ -171,6 +171,62 @@ class ItemRepositoryTest {
 		assertEquals(afterUpdateActual.getPrice(), beforeUpdateActual.getPrice());
 		assertEquals(afterUpdateActual.getShipping(), beforeUpdateActual.getShipping());
 	}
-
+	
+	@Test
+	@DisplayName("itemを検索できているか")
+	public void searchTest() {
+		// 期待値
+		int expectedListSize = 15108;
+		Item expectedConteinItem = new Item(78, "Trump Shirt", 3, "Men/Tops/T-shirts", null, 9.0, 0, "Worn once; will be washed before sent");
+		
+		// 検索フォーム
+		ItemSearchForm itemForm = new ItemSearchForm();
+		itemForm.setParentCategory("Men");
+		itemForm.setChildCategory("Tops");
+		itemForm.setGrandChild("T-shirts");
+		
+		// 実際
+		List<Item> actual = itemRepository.search(itemForm);
+		
+		// テスト
+		assertEquals(expectedListSize, actual.size());
+		
+	}
+	
+	@Test
+	@DisplayName("itemをnameのみで検索できているか")
+	public void searchTest2() {
+		// 期待値
+		int expectedListSize = 788;
+		
+		// 検索フォーム
+		ItemSearchForm itemForm = new ItemSearchForm();
+		itemForm.setName("Lebron");
+		
+		// 実際
+		List<Item> actual = itemRepository.search(itemForm);
+		
+		// テスト
+		assertEquals(expectedListSize, actual.size());
+		
+	}
+	
+	@Test
+	@DisplayName("itemをBrandNameのみで検索できているか")
+	public void searchTestByBrandName() {
+		// 期待値
+		int expectedListSize = 54147;
+		
+		// 検索フォーム
+		ItemSearchForm itemForm = new ItemSearchForm();
+		itemForm.setBrandName("Nike");
+		
+		// 実際
+		List<Item> actual = itemRepository.search(itemForm);
+		
+		// テスト
+		assertEquals(expectedListSize, actual.size());;
+		
+	}
 
 }

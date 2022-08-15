@@ -42,4 +42,45 @@
   WHERE id = #{id}
 </update>
 
+<select id="search" parameterType="com.example.form.ItemSearchForm" resultType="com.example.entity.Item">
+  SELECT id, name, condition, category, brand_name, price, shipping, item_description
+  FROM items
+  WHERE 1 = 1
+  <if test="name != null">
+    AND name LIKE '%' || #{name} || '%'
+  </if>
+  
+  <choose>
+    <when test="parentCategory != null and childCategory != null and grandChild != null "> <!-- 親・子・孫 -->
+      AND category = #{parentCategory} || '/' || #{childCategory} || '/' || #{grandChild}
+    </when>
+    <when test="parentCategory != null and childCategory != null and grandChild == null"> <!-- 親・子 -->
+      AND category LIKE '%' || #{parentCategory} || '/' || #{childCategory}
+    </when>
+    <when test="parentCategory != null and childCategory == null and grandChild != null"> <!-- 親・孫 -->
+      AND category LIKE #{parentCategory} || '%'
+      AND category LIKE '%' || #{grandChild} 
+    </when>
+    <when test="parentCategory == null and childCategory != null and grandChild != null"> <!-- 子・孫 -->
+      AND category LIKE '%' || #{childCategory} || '/' || #{grandChild}
+    </when>
+    <when test="parentCategory != null and childCategory == null and grandChild == null "> <!-- 親 -->
+      AND category LIKE #{parentCategory} || '%'
+    </when>
+    <when test="parentCategory == null and childCategory != null and grandChild == null "> <!-- 子 -->
+      AND category LIKE '%' || '/' || #{childCategory} || '/' || '%'
+    </when>
+    <when test="parentCategory == null and childCategory == null and grandChild != null "> <!-- 孫 -->
+      AND category LIKE '%' || #{grandChild}
+    </when>
+    <otherwise>
+      AND 1 = 1
+    </otherwise>
+  </choose>
+  
+  <if test="{brandName} != null">
+    AND brand_name LIKE '%' || #{brandName} || '%'
+  </if>
+</select>
+
 </mapper>
