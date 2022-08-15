@@ -35,5 +35,15 @@ public class ItemService {
 		pagination.setTotalPage(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
 		return pagination;
 	}
+	
+	/**
+	 * idからitem詳細を取得する
+	 * @param id
+	 * @return
+	 */
+	public Item getDetail(int id) {
+		Item item = itemRepository.findById(id);
+		return item;
+	}
 
 }
