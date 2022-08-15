@@ -91,6 +91,7 @@ class ItemRepositoryTest {
 	}
 	
 	@Test
+<<<<<<< HEAD
 	@DisplayName("idからitemを取得できているか")
 	public void findById() {
 		// 期待値
@@ -104,6 +105,39 @@ class ItemRepositoryTest {
 		
 		// 結果
 		assertEquals(expected.toString(), actual.toString());
+=======
+	@DisplayName("idの最大値を取得できているか")
+	public void findMaxIdTest() {
+		// 期待値
+		int expected = 1482534;
+		
+		// 実際
+		int actual = itemRepository.findMaxId();
+		
+		// 結果
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	@DisplayName("itemを1件登録できているか")
+	public void insertTest() {
+		// 登録前の事前確認
+		int beforeInsertCntExpected = 1482535; //登録前の登録件数期待値
+		int beforeInsertCntActual = itemRepository.countAllItems();
+		assertEquals(beforeInsertCntExpected, beforeInsertCntActual);
+		
+		// 登録対象itemオブジェクト作成
+		int id = itemRepository.findMaxId();
+		Item item = new Item(++id, "商品名", 1, "商品カテゴリ", "ブランド名", 52.0, 0, "商品説明");
+		
+		// 実際に登録を行う
+		itemRepository.insert(item);
+		
+		// 登録後 件数確認
+		int afterInsertCntExpected = 1482536; //登録前の登録件数期待値
+		int afterInsertCntActual = itemRepository.countAllItems();
+		assertEquals(afterInsertCntExpected, afterInsertCntActual);
+>>>>>>> main
 		
 	}
 

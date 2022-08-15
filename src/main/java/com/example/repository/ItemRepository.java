@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entity.Item;
 import com.example.pagination.Pagination;
@@ -30,5 +31,17 @@ public interface ItemRepository {
 	 * @return
 	 */
 	public Item findById(int id);
+
+	/**
+	 * idの最大値を取得する
+	 * @return
+	 */
+	public int findMaxId();
 	
+	/**
+	 * itemを1件登録する
+	 * @param item
+	 */
+	public void insert(Item item);
+
 }
