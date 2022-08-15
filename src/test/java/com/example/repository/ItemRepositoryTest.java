@@ -91,6 +91,21 @@ class ItemRepositoryTest {
 	}
 	
 	@Test
+	@DisplayName("idからitemを取得できているか")
+	public void findById() {
+		// 期待値
+		Item expected = new Item(2345, "Overwatch origins edition xbox one", 3, "Electronics/Video Games & Consoles/Games", "Xbox", 29.0, 0, "Tested and working");
+		
+		// 引数のid
+		int arg = 2345;
+		
+		// 実際
+		Item actual = itemRepository.findById(arg);
+		
+		// 結果
+		assertEquals(expected.toString(), actual.toString());
+	}
+	@Test
 	@DisplayName("idの最大値を取得できているか")
 	public void findMaxIdTest() {
 		// 期待値
@@ -124,5 +139,38 @@ class ItemRepositoryTest {
 		assertEquals(afterInsertCntExpected, afterInsertCntActual);
 		
 	}
+	
+	@Test
+	@DisplayName("itemを更新できているか")
+	public void updateTetst() {
+		// 更新対象item
+		Item targetItem = new Item(6, "Acacia pacific tides santorini top", 3, "Women/Swimwear/Two-Piece", "Acacia Swimwear", 64.0, 0, "Size small but straps slightly shortened to fit xs, besides that, perfect condition");
+		
+		// 更新前確認
+		Item beforeUpdateActual = itemRepository.findById(targetItem.getId());
+		assertEquals(targetItem.toString(), beforeUpdateActual.toString());
+		
+		// 更新準備(condition, category, itemDescriptionを変更する)
+		targetItem.setCondition(1);
+		targetItem.setCategory("Beauty/Skin Care/Face");
+		targetItem.setItemDescription("New unused and authentic. Caudalie beauty elixir mist. 1 oz");
+		
+		// 更新
+		itemRepository.update(targetItem);
+		
+		// 更新後確認(更新箇所が更新されているか)
+		Item afterUpdateActual = itemRepository.findById(targetItem.getId());
+		assertEquals(targetItem.getCondition(), afterUpdateActual.getCondition());
+		assertEquals(targetItem.getCategory(), afterUpdateActual.getCategory());
+		assertEquals(targetItem.getItemDescription(), afterUpdateActual.getItemDescription());
+		
+		// 更新後確認（更新箇所以外変更されていないか
+		assertEquals(afterUpdateActual.getId(), beforeUpdateActual.getId());
+		assertEquals(afterUpdateActual.getName(), beforeUpdateActual.getName());
+		assertEquals(afterUpdateActual.getBrandName(), beforeUpdateActual.getBrandName());
+		assertEquals(afterUpdateActual.getPrice(), beforeUpdateActual.getPrice());
+		assertEquals(afterUpdateActual.getShipping(), beforeUpdateActual.getShipping());
+	}
+
 
 }

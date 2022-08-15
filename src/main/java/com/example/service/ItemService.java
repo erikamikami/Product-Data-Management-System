@@ -38,6 +38,16 @@ public class ItemService {
 	}
 	
 	/**
+	 * idからitem詳細を取得する
+	 * @param id
+	 * @return
+	 */
+	public Item getDetail(int id) {
+		Item item = itemRepository.findById(id);
+		return item;
+	}
+	
+	/**
 	 * itemを登録する
 	 * @param item
 	 */
@@ -46,6 +56,14 @@ public class ItemService {
 		int id = itemRepository.findMaxId();
 		item.setId(++id);
 		itemRepository.insert(item);
+	}
+	
+	/**
+	 * itemを編集する
+	 * @param item
+	 */
+	public void edit(Item item) {
+		itemRepository.update(item);
 	}
 
 }

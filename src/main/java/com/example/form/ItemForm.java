@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class ItemForm {
 	
-	private int id;
+	private String id;
 	
 	@NotBlank(message = "error:may not be empty")
 	private String name;
@@ -32,7 +32,6 @@ public class ItemForm {
 
 	private String grandChild;
 
-	@NotBlank(message = "error:may not be empty")
 	private String brandName;
 	
 	@NotBlank(message = "error:may not be empty")
@@ -44,12 +43,12 @@ public class ItemForm {
 	@NotBlank(message = "error:may not be empty")
 	private String itemDescription;
 	
-	
-	public int getId() {
+  
+	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
-		this.id = Integer.parseInt(id);
+		this.id = id;
 	}
 	public String getName() {
 		return name;

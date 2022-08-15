@@ -15,6 +15,12 @@
   LIMIT #{displaysPerPage} OFFSET #{displaysPerPage}*(#{page}-1)
 </select>
 
+<select id="findById" resultType="com.example.entity.Item" parameterType="int">
+  SELECT id, name, condition, category, brand_name, price, shipping, item_description
+  FROM items
+  WHERE id = #{id}
+</select>
+
 <select id="findMaxId" resultType="int">
   SELECT max(id) FROM items;
 </select>
@@ -23,5 +29,17 @@
   INSERT INTO items (id, name, condition, category, brand_name, price, shipping, item_description)
   VALUES (#{id}, #{name}, #{condition}, #{category}, #{brandName}, #{price}, #{shipping}, #{itemDescription})
 </insert>
+
+<update id="update" parameterType="com.example.entity.Item">
+  UPDATE items SET 
+  name = #{name}
+  ,condition = #{condition}
+  ,category = #{category}
+  ,brand_name = #{brandName}
+  ,price = #{price}
+  ,shipping = #{shipping}
+  ,item_description = #{itemDescription}
+  WHERE id = #{id}
+</update>
 
 </mapper>

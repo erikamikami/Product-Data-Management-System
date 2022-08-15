@@ -93,5 +93,30 @@ class ItemControllerTest {
 		assertEquals(actualItemList, itemList);
 		assertEquals(pagination, actualPagination);
 	}
+	
+	@Test
+	@DisplayName("item詳細リストを表示できているか")
+	public void toShowItemDetailTest() throws Exception {
+		// 期待値
+		Item expected = new Item(37, "Under Armour maroon and gray shirt metal", 4, "Men/Athletic Apparel/Shirts & Tops", "Under Armour", 6.0, 1, "Has some wear to the back, and few white spots which I believe can be washed out");
+		
+		// 引数
+		String id = "37";
+		
+		when(itemService.getDetail(Integer.parseInt(id))).thenReturn(expected);
+		
+		// 実際
+		MvcResult result = mockMvc.perform(post("/item/detail").param("id", id))
+									.andExpect(status().is2xxSuccessful())
+									.andExpect(view().name("item"))
+									.andExpect(model().attributeExists("item"))
+									.andReturn()
+									;
+		
+		Item actual = (Item) result.getModelAndView().getModel().get("item");
+		
+		// 結果
+		assertEquals(expected, actual);
+	}
 
 }
