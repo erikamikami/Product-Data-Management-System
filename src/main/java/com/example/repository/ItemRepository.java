@@ -23,4 +23,12 @@ public interface ItemRepository {
 	 */
 	public List<Item> findAll(Pagination pagination);
 	
+	
+	/**
+	 * idからitemを1件取得する
+	 * @param id
+	 * @return
+	 */
+	public Item findById(int id);
+	
 }

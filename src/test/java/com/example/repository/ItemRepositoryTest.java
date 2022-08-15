@@ -46,7 +46,7 @@ class ItemRepositoryTest {
 	@DisplayName("itemテーブルの総レコード数を取得できているか")
 	public void countAllItemsTest() {
 		// 期待値
-		int expected = 593381;
+		int expected = 1482535;
 		
 		// 実際
 		int actual = itemRepository.countAllItems();
@@ -88,6 +88,23 @@ class ItemRepositoryTest {
 		for(int i=0; i<=4; i++) {
 			assertEquals(expected.get(i).getName(), actual.get(i).getName());
 		}
+	}
+	
+	@Test
+	@DisplayName("idからitemを取得できているか")
+	public void findById() {
+		// 期待値
+		Item expected = new Item(2345, "Overwatch origins edition xbox one", 3, "Electronics/Video Games & Consoles/Games", "Xbox", 29.0, 0, "Tested and working");
+		
+		// 引数のid
+		int arg = 2345;
+		
+		// 実際
+		Item actual = itemRepository.findById(arg);
+		
+		// 結果
+		assertEquals(expected.toString(), actual.toString());
+		
 	}
 
 }

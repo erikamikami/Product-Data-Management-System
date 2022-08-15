@@ -15,4 +15,10 @@
   LIMIT #{displaysPerPage} OFFSET #{displaysPerPage}*(#{page}-1)
 </select>
 
+<select id="findById" resultType="com.example.entity.Item" parameterType="int">
+  SELECT id, name, condition, category, brand_name, price, shipping, item_description
+  FROM items
+  WHERE id = #{id}
+</select>
+
 </mapper>
