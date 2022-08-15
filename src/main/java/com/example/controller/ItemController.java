@@ -40,5 +40,19 @@ public class ItemController {
 		return "list";
 	}
 	
+	
+	/**
+	 * item詳細リストを表示
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/detail")
+	public String toShowItemDetail(String id, Model model) {
+		Item item = itemService.getDetail(Integer.parseInt(id));
+		model.addAttribute("item", item);
+		return "detail";
+	}
+	
 
 }
