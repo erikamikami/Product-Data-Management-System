@@ -172,4 +172,5 @@ class ItemRepositoryTest {
 		assertEquals(afterUpdateActual.getShipping(), beforeUpdateActual.getShipping());
 	}
 
+
 }

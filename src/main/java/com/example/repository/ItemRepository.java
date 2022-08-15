@@ -24,7 +24,6 @@ public interface ItemRepository {
 	 */
 	public List<Item> findAll(Pagination pagination);
 	
-	
 	/**
 	 * idからitemを1件取得する
 	 * @param id
@@ -44,11 +43,11 @@ public interface ItemRepository {
 	 */
 	public void insert(Item item);
 	
-	
 	/**
 	 * itemを更新する
 	 * @param item
 	 */
 	public void update(Item item);
+
 
 }
