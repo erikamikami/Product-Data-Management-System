@@ -52,4 +52,19 @@
   ORDER BY category_name ASC
 </select>
 
+<!--　childCategoryを取得　-->
+<select id="findChildCategory" resultType="String">
+  SELECT category_name FROM category
+  WHERE parent_id IS NOT NULL 
+  AND name_all IS NULL 
+</select>
+
+
+<!--　grandChildを取得　-->
+<select id="findGrandChild" resultType="String">
+  SELECT category_name FROM category
+  WHERE parent_id IS NOT NULL 
+  AND name_all IS NOT NULL 
+</select>
+
 </mapper>

@@ -48,41 +48,37 @@
 
     <!-- 検索フォーム -->
     <div id="forms">
-      <form action="" class="form-inline" role="form">
+      <form th:action="@{/item/list}" class="form-inline" role="form" method="get" th:object="${itemSearchForm}">
         <div class="form-group">
-          <input type="text" class="form-control" id="name" placeholder="item name"/>
+          item name：<input type="text" class="form-control" id="name" placeholder="item name" name="name" th:field="*{name}">
         </div>
-        <div class="form-group"><i class="fa fa-plus"></i></div>
+        <br>
         <div class="form-group">
-          <select class="form-control">
-            <option>- parentCategory -</option>
-            <option>parentCategory1</option>
-            <option>parentCategory2</option>
-            <option>parentCategory3</option>
-            <option>parentCategory4</option>
-            <option>parentCategory5</option>
+        parent category：
+          <select class="form-control" name="parentCategory" th:field="*{parentCategory}">
+            <span th:each="parentCategory : ${parentCategorySearchList}">
+              <option th:value="${parentCategory}" th:text="${parentCategory}"></option>
+            </span>
           </select>
-          <select class="form-control">
-            <option>- childCategory -</option>
-            <option>childCategory1</option>
-            <option>childCategory2</option>
-            <option>childCategory3</option>
-            <option>childCategory4</option>
-            <option>childCategory5</option>
+          child category：
+          <select class="form-control" name="childCategory" th:field="*{childCategory}">
+            <span th:each="childCategory : ${childCategorySearchList}">
+              <option th:value="${childCategory}" th:text="${childCategory}"></option>
+            </span>
           </select>
-          <select class="form-control">
-            <option>- grandChild -</option>
-            <option>grandChild1</option>
-            <option>grandChild2</option>
-            <option>grandChild3</option>
-            <option>grandChild4</option>
-            <option>grandChild5</option>
+          grandChild category：
+          <select class="form-control" name="grandChild" th:field="*{grandChild}">
+            <span th:each="grandChild : ${grandChildSearchList}">
+              <option th:value="${grandChild}" th:text="${grandChild}"></option>
+            </span>
           </select>
         </div>
-        <div class="form-group"><i class="fa fa-plus"></i></div>
+        <br>
+        brand name：
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="brand"/>
+          <input type="text" class="form-control" placeholder="brand name" name="brandName" th:field="*{brandName}">
         </div>
+        <br>
         <div class="form-group"></div>
         <button type="submit" class="btn btn-default"><i class="fa fa-angle-double-right"></i> search</button>
       </form>
@@ -127,20 +123,49 @@
     </div>
 
     <!-- pagination -->
-    <div class="pages">
-      <nav class="page-nav">
-        <ul class="pager" th:field="${padination}">
+    <nav class="page-nav pager">
+      <form th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
+        <input type="hidden" name="name" th:field="*{name}">
+        <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
+        <input type="hidden" name="childCategory" th:field="*{childCategory}">
+        <input type="hidden" name="grandChild" th:field="*{grandChild}">
+        <input type="hidden" name="brandName" th:field="*{brandName}">
+        <input type="hidden" name="page" th:value="${pagination.page-1}">
+        <span th:if="${pagination.page}!=1">
+          <button>&larr; prev</button>
+        </span>
+      </form>
+      
+      <form th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
+        <input type="hidden" name="name" th:field="*{name}">
+        <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
+        <input type="hidden" name="childCategory" th:field="*{childCategory}">
+        <input type="hidden" name="grandChild" th:field="*{grandChild}">
+        <input type="hidden" name="brandName" th:field="*{brandName}">
+        <input type="hidden" name="page" th:value="${pagination.page+1}">
+        <span th:if="${pagination.page}!=${pagination.totalPage}">
+          <button>next &rarr;</button>
+        </span>
+      </form>
+    </nav>
+<!--         <ul class="pager" th:field="${padination}">
           <span th:if="${pagination.page}!=1">
             <li class="previous"><a th:href="@{/item/list?page=} + ${pagination.page-1}">&larr; prev</a></li>
           </span>
           <span th:if="${pagination.page}!=${pagination.totalPage}">
             <li class="next"><a th:href="@{/item/list?page=} + ${pagination.page+1}">next &rarr;</a></li>
           </span>
-        </ul>
-      </nav>
+        </ul> -->
+      
+    
       <!-- ページ番号を指定して表示するフォーム -->
       <div id="select-page">
-        <form class="form-inline" th:action="@{/item/list}" th:field="${pagination}" method="get">
+        <form class="form-inline" th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
+        <input type="hidden" name="name" th:field="*{name}">
+        <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
+        <input type="hidden" name="childCategory" th:field="*{childCategory}">
+        <input type="hidden" name="grandChild" th:field="*{grandChild}">
+        <input type="hidden" name="brandName" th:field="*{brandName}">
           <div class="form-group">
             <div class="input-group col-xs-6">
               <label></label>

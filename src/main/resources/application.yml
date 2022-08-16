@@ -10,4 +10,12 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+logging:
+  level:
+    org:
+      springframework: WARN
+    com:
+      example:
+        repository:
+          ItemRepository: DEBUG
 

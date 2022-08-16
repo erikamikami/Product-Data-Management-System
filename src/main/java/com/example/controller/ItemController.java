@@ -12,13 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.entity.Item;
+import com.example.entity.ItemSearch;
 import com.example.form.ItemForm;
+import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 import com.example.service.CategoryService;
 import com.example.service.ItemService;
@@ -27,6 +27,7 @@ import com.example.service.ItemService;
 @RequestMapping("/item")
 public class ItemController {
 	
+	/**	ページング処理用のオブジェクト作成 **/
 	@ModelAttribute
 	public Pagination setUpToPagination() {
 		return new Pagination();
@@ -37,21 +38,47 @@ public class ItemController {
 		return new ItemForm();
 	}
 	
+	@ModelAttribute
+	public ItemSearchForm setUpToItemSearchForm() {
+		return new ItemSearchForm();
+	}
+	
+	@ModelAttribute(name = "parentCategorySearchList")
+	public Set<String> setParentcategory(){
+		return categoryService.getParentCategoryList();
+	}
+	
+	@ModelAttribute(name = "childCategorySearchList")
+	public Set<String> setChildcategory(){
+		return categoryService.findChildCategory();
+	}
+	
+	@ModelAttribute(name = "grandChildSearchList")
+	public Set<String> setGrandcategory(){
+		return categoryService.findGrandChild();
+	}
+	
 	@Autowired
 	private ItemService itemService;
 	
 	@Autowired
 	private CategoryService categoryService;
 	
-	/** item全件リストを表示
+	
+	/** itemリストを表示
 	 * @param pagination
 	 * @param model
 	 * @return
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
 	 */
 	@RequestMapping("/list")
-	public String toShowItemList(Pagination pagination, Model model) {
-		List<Item> itemList = itemService.getAllItems(pagination);
-		pagination = itemService.paging(pagination);
+	public String toShowItemList(ItemSearchForm itemSearchForm, Pagination pagination, Model model) throws IllegalArgumentException, IllegalAccessException {
+		ItemSearch itemSearch = new ItemSearch();
+		BeanUtils.copyProperties(itemSearchForm, itemSearch);
+		
+		List<Item> itemList = itemService.search(itemSearch, pagination);
+		pagination = itemService.pagingSearch(itemSearch, pagination);
 		
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("pagination", pagination);
@@ -166,5 +193,7 @@ public class ItemController {
 		redirectAttribute.addAttribute("id", itemForm.getId());
 		return "redirect:/item/detail";
 	}
+	
+	
 
 }

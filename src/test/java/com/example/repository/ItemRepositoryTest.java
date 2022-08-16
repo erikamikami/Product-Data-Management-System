@@ -1,6 +1,6 @@
 package com.example.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
 import com.example.entity.Item;
+import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 
 @MybatisTest
@@ -171,6 +171,93 @@ class ItemRepositoryTest {
 		assertEquals(afterUpdateActual.getPrice(), beforeUpdateActual.getPrice());
 		assertEquals(afterUpdateActual.getShipping(), beforeUpdateActual.getShipping());
 	}
-
+	
+	@Test
+	@DisplayName("itemをCategoryで検索できているか")
+	public void searchTest() {
+		// 期待値
+		List<Integer> expectedIdList = new ArrayList<>();
+		expectedIdList.add(0);
+		expectedIdList.add(78);
+		expectedIdList.add(151);
+		
+		// 検索フォーム
+		ItemSearchForm itemForm = new ItemSearchForm();
+		itemForm.setParentCategory("Men");
+		itemForm.setChildCategory("Tops");
+		itemForm.setGrandChild("T-shirts");
+		
+		// ページング
+		Pagination pagination = new Pagination();
+		pagination.setDisplaysPerPage(3);
+		
+		// 実際
+		List<Item> actual = itemRepository.search(itemForm, pagination);
+		
+		System.out.println(actual);
+		
+		// テスト
+		assertEquals(pagination.getDisplaysPerPage(), actual.size());
+		for(int i=0; i<actual.size(); i++) {
+			assertEquals(expectedIdList.get(i), actual.get(i).getId());
+		}
+		
+	}
+	
+	@Test
+	@DisplayName("itemをnameのみで検索できているか")
+	public void searchTest2() {
+		// 期待値
+		List<Integer> expectedIdList = new ArrayList<>();
+		expectedIdList.add(116);
+		expectedIdList.add(2235);
+		expectedIdList.add(2479);
+		
+		// 検索フォーム
+		ItemSearchForm itemForm = new ItemSearchForm();
+		itemForm.setName("Lebron");
+		
+		// ページング
+		Pagination pagination = new Pagination();
+		pagination.setDisplaysPerPage(3);
+		
+		// 実際
+		List<Item> actual = itemRepository.search(itemForm, pagination);
+		
+		// テスト
+		assertEquals(pagination.getDisplaysPerPage(), actual.size());
+		for(int i=0; i<actual.size(); i++) {
+			assertEquals(expectedIdList.get(i), actual.get(i).getId());
+		}
+		
+	}
+	
+	@Test
+	@DisplayName("itemをBrandNameのみで検索できているか")
+	public void searchTestByBrandName() {
+		// 期待値
+		List<Integer> expectedIdList = new ArrayList<>();
+		expectedIdList.add(8);
+		expectedIdList.add(89);
+		expectedIdList.add(116);
+		
+		// 検索フォーム
+		ItemSearchForm itemForm = new ItemSearchForm();
+		itemForm.setBrandName("Nike");
+		
+		// ページング
+		Pagination pagination = new Pagination();
+		pagination.setDisplaysPerPage(3);
+		
+		// 実際
+		List<Item> actual = itemRepository.search(itemForm, pagination);
+		
+		// テスト
+		assertEquals(pagination.getDisplaysPerPage(), actual.size());
+		for(int i=0; i<actual.size(); i++) {
+			assertEquals(expectedIdList.get(i), actual.get(i).getId());
+		}
+		
+	}
 
 }

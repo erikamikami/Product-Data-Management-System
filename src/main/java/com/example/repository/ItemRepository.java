@@ -3,9 +3,10 @@ package com.example.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.entity.Item;
+import com.example.entity.ItemSearch;
 import com.example.pagination.Pagination;
 
 @Mapper
@@ -48,6 +49,28 @@ public interface ItemRepository {
 	 * @param item
 	 */
 	public void update(Item item);
+	
+	
+	/**
+	 * itemを検索する（ページングあり）
+	 * 
+	 * 検索項目
+	 * ・name
+	 * ・parentCayegory
+	 * ・childCategory
+	 * ・grandChild
+	 * ・brandName
+	 * 
+	 * @param item
+	 * @return
+	 */
+	public List<Item> search(@Param("itemSearch") ItemSearch itemSearch, @Param("pagination"
+			+ "") Pagination pagination);
 
+	/**
+	 * itemテーブル 検索結果の総レコード数を取得
+	 * @return
+	 */
+	public int countSearchItems(ItemSearch itemSearch);
 
 }
