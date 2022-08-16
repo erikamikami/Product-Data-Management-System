@@ -27,6 +27,7 @@ import com.example.service.ItemService;
 @RequestMapping("/item")
 public class ItemController {
 	
+	/**	ページング処理用のオブジェクト作成 **/
 	@ModelAttribute
 	public Pagination setUpToPagination() {
 		return new Pagination();
