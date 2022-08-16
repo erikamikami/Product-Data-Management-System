@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entity.Item;
-import com.example.form.ItemSearchForm;
+import com.example.entity.ItemSearch;
 import com.example.pagination.Pagination;
 import com.example.repository.ItemRepository;
 
@@ -72,9 +72,17 @@ public class ItemService {
 	 * itemを検索する
 	 * @param itemForm
 	 * @return
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
 	 */
-	public List<Item> search(ItemSearchForm itemSearchForm, Pagination pagination){
-		return itemRepository.search(itemSearchForm, pagination);
+	public List<Item> search(ItemSearch itemSearch, Pagination pagination) throws IllegalArgumentException, IllegalAccessException{
+		System.out.println("検索条件は、" + itemSearch);
+		if(itemSearch.isAllAtributesNull()) {
+			System.out.println("全部nullです");
+			return itemRepository.findAll(pagination);
+		}
+		System.out.println("全部nullではないです");
+		return itemRepository.search(itemSearch, pagination);
 	}
 
 }

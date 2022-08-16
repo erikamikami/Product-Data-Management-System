@@ -46,45 +46,46 @@
   SELECT id, name, condition, category, brand_name, price, shipping, item_description
   FROM items
   WHERE 1 = 1
-  
   <choose>
-    <when test="itemSearchForm.parentCategory != null and itemSearchForm.childCategory != null and itemSearchForm.grandChild != null "> <!-- 親・子・孫 -->
-      AND category = #{itemSearchForm.parentCategory} || '/' || #{itemSearchForm.childCategory} || '/' || #{itemSearchForm.grandChild}
+	<when test="(itemSearch.parentCategory != null and itemSearch.parentCategory != '') and (itemSearch.childCategory != null and itemSearch.childCategory != '' ) and (itemSearch.grandChild != null and itemSearch.grandChild != '')"> <!-- 親・子・孫 -->
+      AND category = #{itemSearch.parentCategory} || '/' || #{itemSearch.childCategory} || '/' || #{itemSearch.grandChild}
     </when>
-    <when test="itemSearchForm.parentCategory != null and itemSearchForm.childCategory != null and itemSearchForm.grandChild == null"> <!-- 親・子 -->
-      AND category LIKE '%' || #{itemSearchForm.parentCategory} || '/' || #{itemSearchForm.childCategory}
+    <when test="(itemSearch.parentCategory != null and itemSearch.parentCategory != '' ) and (itemSearch.childCategory == null or itemSearch.childCategory == '' ) and (itemSearch.grandChild == null or itemSearch.grandChild == '')"> <!-- 親 -->
+      AND category LIKE #{itemSearch.parentCategory} || '%'
     </when>
-    <when test="itemSearchForm.parentCategory != null and itemSearchForm.childCategory == null and itemSearchForm.grandChild != null"> <!-- 親・孫 -->
-      AND category LIKE #{itemSearchForm.parentCategory} || '%'
-      AND category LIKE '%' || #{itemSearchForm.grandChild} 
+    <when test="(itemSearch.parentCategory == null or itemSearch.parentCategory == '' ) and (itemSearch.childCategory != null and itemSearch.childCategory != '' ) and (itemSearch.grandChild == null or itemSearch.grandChild == '')"> <!-- 子 -->
+      AND category LIKE '%' || '/' || #{itemSearch.childCategory} || '/' || '%'
     </when>
-    <when test="itemSearchForm.parentCategory == null and itemSearchForm.childCategory != null and itemSearchForm.grandChild != null"> <!-- 子・孫 -->
-      AND category LIKE '%' || #{itemSearchForm.childCategory} || '/' || #{itemSearchForm.grandChild}
+    <when test="(itemSearch.parentCategory == null or itemSearch.parentCategory == '' ) and (itemSearch.childCategory == null or itemSearch.childCategory == '' ) and (itemSearch.grandChild != null and itemSearch.grandChild != '')"> <!-- 孫 -->
+      AND category LIKE '%' || #{itemSearch.grandChild}
     </when>
-    <when test="itemSearchForm.parentCategory != null and itemSearchForm.childCategory == null and itemSearchForm.grandChild == null "> <!-- 親 -->
-      AND category LIKE #{itemSearchForm.parentCategory} || '%'
+	<when test="(itemSearch.parentCategory != null and itemSearch.parentCategory != '' ) and (itemSearch.childCategory != null and itemSearch.childCategory != '' ) and (itemSearch.grandChild == null or itemSearch.grandChild == '')"> <!-- 親・子 -->
+      AND category LIKE #{itemSearch.parentCategory} || '/' || #{itemSearch.childCategory} || '%'
     </when>
-    <when test="itemSearchForm.parentCategory == null and itemSearchForm.childCategory != null and itemSearchForm.grandChild == null "> <!-- 子 -->
-      AND category LIKE '%' || '/' || #{itemSearchForm.childCategory} || '/' || '%'
+    <when test="(itemSearch.parentCategory != null and itemSearch.parentCategory != '' ) and (itemSearch.childCategory == null or itemSearch.childCategory == '' ) and (itemSearch.grandChild != null and itemSearch.grandChild != '')"> <!-- 親・孫 -->
+      AND category LIKE #{itemSearch.parentCategory} || '%'
+      AND category LIKE '%' || #{itemSearch.grandChild} 
     </when>
-    <when test="itemSearchForm.parentCategory == null and itemSearchForm.childCategory == null and itemSearchForm.grandChild != null "> <!-- 孫 -->
-      AND category LIKE '%' || #{itemSearchForm.grandChild}
+    <when test="(itemSearch.parentCategory == null or itemSearch.parentCategory == '' ) and (itemSearch.childCategory != null and itemSearch.childCategory != '' ) and (itemSearch.grandChild != null and itemSearch.grandChild != '')"> <!-- 子・孫 -->
+      AND category LIKE '%' || #{itemSearch.childCategory} || '/' || #{itemSearch.grandChild}
     </when>
+		
     <otherwise>
       AND 1 = 1
     </otherwise>
   </choose>
   
-  <if test="itemSearchForm.name != null">
-    AND name LIKE '%' || #{itemSearchForm.name} || '%'
+  <if test="itemSearch.name != null and itemSearch.name != ''">
+    AND name LIKE '%' || #{itemSearch.name} || '%'
   </if>
   
-  <if test="itemSearchForm.brandName != null">
-    AND brand_name LIKE '%' || #{itemSearchForm.brandName} || '%'
+  <if test="itemSearch.brandName != null and itemSearch.brandName != ''">
+    AND brand_name LIKE '%' || #{itemSearch.brandName} || '%'
   </if>
   
   ORDER BY id ASC
   LIMIT #{pagination.displaysPerPage} OFFSET #{pagination.displaysPerPage}*(#{pagination.page}-1)
+
 </select>
 
 </mapper>

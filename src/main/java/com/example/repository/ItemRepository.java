@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.entity.Item;
-import com.example.form.ItemSearchForm;
+import com.example.entity.ItemSearch;
 import com.example.pagination.Pagination;
 
 @Mapper
@@ -64,7 +64,7 @@ public interface ItemRepository {
 	 * @param item
 	 * @return
 	 */
-	public List<Item> search(@Param("itemSearchForm") ItemSearchForm itemSearchForm, @Param("pagination"
+	public List<Item> search(@Param("itemSearch") ItemSearch itemSearch, @Param("pagination"
 			+ "") Pagination pagination);
 
 

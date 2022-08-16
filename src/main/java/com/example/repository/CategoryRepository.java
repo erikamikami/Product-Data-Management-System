@@ -38,5 +38,17 @@ public interface CategoryRepository {
 	 * @return
 	 */
 	public List<String> findGrandChildCategoryByChildCategoryId(List<Integer> chileIdList);
+	
+	/**
+	 * childCategoryを取得
+	 * @return
+	 */
+	public List<String> findChildCategory();
+	
+	/**
+	 * grandChildを取得
+	 * @return
+	 */
+	public List<String> findGrandChild();
 
 }

@@ -173,7 +173,7 @@ class ItemRepositoryTest {
 	}
 	
 	@Test
-	@DisplayName("itemを検索できているか")
+	@DisplayName("itemをCategoryで検索できているか")
 	public void searchTest() {
 		// 期待値
 		List<Integer> expectedIdList = new ArrayList<>();
