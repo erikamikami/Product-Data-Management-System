@@ -176,8 +176,10 @@ class ItemRepositoryTest {
 	@DisplayName("itemを検索できているか")
 	public void searchTest() {
 		// 期待値
-		int expectedListSize = 15108;
-		Item expectedConteinItem = new Item(78, "Trump Shirt", 3, "Men/Tops/T-shirts", null, 9.0, 0, "Worn once; will be washed before sent");
+		List<Integer> expectedIdList = new ArrayList<>();
+		expectedIdList.add(0);
+		expectedIdList.add(78);
+		expectedIdList.add(151);
 		
 		// 検索フォーム
 		ItemSearchForm itemForm = new ItemSearchForm();
@@ -185,11 +187,20 @@ class ItemRepositoryTest {
 		itemForm.setChildCategory("Tops");
 		itemForm.setGrandChild("T-shirts");
 		
+		// ページング
+		Pagination pagination = new Pagination();
+		pagination.setDisplaysPerPage(3);
+		
 		// 実際
-		List<Item> actual = itemRepository.search(itemForm);
+		List<Item> actual = itemRepository.search(itemForm, pagination);
+		
+		System.out.println(actual);
 		
 		// テスト
-		assertEquals(expectedListSize, actual.size());
+		assertEquals(pagination.getDisplaysPerPage(), actual.size());
+		for(int i=0; i<actual.size(); i++) {
+			assertEquals(expectedIdList.get(i), actual.get(i).getId());
+		}
 		
 	}
 	
@@ -197,17 +208,27 @@ class ItemRepositoryTest {
 	@DisplayName("itemをnameのみで検索できているか")
 	public void searchTest2() {
 		// 期待値
-		int expectedListSize = 788;
+		List<Integer> expectedIdList = new ArrayList<>();
+		expectedIdList.add(116);
+		expectedIdList.add(2235);
+		expectedIdList.add(2479);
 		
 		// 検索フォーム
 		ItemSearchForm itemForm = new ItemSearchForm();
 		itemForm.setName("Lebron");
 		
+		// ページング
+		Pagination pagination = new Pagination();
+		pagination.setDisplaysPerPage(3);
+		
 		// 実際
-		List<Item> actual = itemRepository.search(itemForm);
+		List<Item> actual = itemRepository.search(itemForm, pagination);
 		
 		// テスト
-		assertEquals(expectedListSize, actual.size());
+		assertEquals(pagination.getDisplaysPerPage(), actual.size());
+		for(int i=0; i<actual.size(); i++) {
+			assertEquals(expectedIdList.get(i), actual.get(i).getId());
+		}
 		
 	}
 	
@@ -215,17 +236,27 @@ class ItemRepositoryTest {
 	@DisplayName("itemをBrandNameのみで検索できているか")
 	public void searchTestByBrandName() {
 		// 期待値
-		int expectedListSize = 54147;
+		List<Integer> expectedIdList = new ArrayList<>();
+		expectedIdList.add(8);
+		expectedIdList.add(89);
+		expectedIdList.add(116);
 		
 		// 検索フォーム
 		ItemSearchForm itemForm = new ItemSearchForm();
 		itemForm.setBrandName("Nike");
 		
+		// ページング
+		Pagination pagination = new Pagination();
+		pagination.setDisplaysPerPage(3);
+		
 		// 実際
-		List<Item> actual = itemRepository.search(itemForm);
+		List<Item> actual = itemRepository.search(itemForm, pagination);
 		
 		// テスト
-		assertEquals(expectedListSize, actual.size());;
+		assertEquals(pagination.getDisplaysPerPage(), actual.size());
+		for(int i=0; i<actual.size(); i++) {
+			assertEquals(expectedIdList.get(i), actual.get(i).getId());
+		}
 		
 	}
 

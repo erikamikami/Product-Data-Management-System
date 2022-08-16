@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.entity.Item;
 import com.example.form.ItemSearchForm;
@@ -51,7 +52,7 @@ public interface ItemRepository {
 	
 	
 	/**
-	 * itemを検索する
+	 * itemを検索する（ページングあり）
 	 * 
 	 * 検索項目
 	 * ・name
@@ -63,7 +64,8 @@ public interface ItemRepository {
 	 * @param item
 	 * @return
 	 */
-	public List<Item> search(ItemSearchForm itemSearchForm);
+	public List<Item> search(@Param("itemSearchForm") ItemSearchForm itemSearchForm, @Param("pagination"
+			+ "") Pagination pagination);
 
 
 }

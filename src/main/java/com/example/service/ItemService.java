@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.entity.Item;
+import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 import com.example.repository.ItemRepository;
 
@@ -64,6 +65,16 @@ public class ItemService {
 	 */
 	public void edit(Item item) {
 		itemRepository.update(item);
+	}
+	
+	
+	/**
+	 * itemを検索する
+	 * @param itemForm
+	 * @return
+	 */
+	public List<Item> search(ItemSearchForm itemSearchForm, Pagination pagination){
+		return itemRepository.search(itemSearchForm, pagination);
 	}
 
 }

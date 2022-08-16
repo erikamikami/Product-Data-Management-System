@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,13 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.entity.Item;
 import com.example.form.ItemForm;
+import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 import com.example.service.CategoryService;
 import com.example.service.ItemService;
@@ -165,6 +165,18 @@ public class ItemController {
 		
 		redirectAttribute.addAttribute("id", itemForm.getId());
 		return "redirect:/item/detail";
+	}
+	
+	
+	@RequestMapping("/search")
+	public String search(ItemSearchForm itemSearchForm, Pagination pagination, Model model) {
+		System.out.println(itemSearchForm);
+		System.out.println(pagination);
+		
+		List<Item> itemList = itemService.search(itemSearchForm, pagination);
+		model.addAttribute("itemList", itemList);
+		
+		return null;
 	}
 
 }
