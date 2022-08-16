@@ -123,20 +123,49 @@
     </div>
 
     <!-- pagination -->
-    <div class="pages">
-      <nav class="page-nav">
-        <ul class="pager" th:field="${padination}">
+    <nav class="page-nav pager">
+      <form th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
+        <input type="hidden" name="name" th:field="*{name}">
+        <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
+        <input type="hidden" name="childCategory" th:field="*{childCategory}">
+        <input type="hidden" name="grandChild" th:field="*{grandChild}">
+        <input type="hidden" name="brandName" th:field="*{brandName}">
+        <input type="hidden" name="page" th:value="${pagination.page-1}">
+        <span th:if="${pagination.page}!=1">
+          <button>&larr; prev</button>
+        </span>
+      </form>
+      
+      <form th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
+        <input type="hidden" name="name" th:field="*{name}">
+        <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
+        <input type="hidden" name="childCategory" th:field="*{childCategory}">
+        <input type="hidden" name="grandChild" th:field="*{grandChild}">
+        <input type="hidden" name="brandName" th:field="*{brandName}">
+        <input type="hidden" name="page" th:value="${pagination.page+1}">
+        <span th:if="${pagination.page}!=${pagination.totalPage}">
+          <button>next &rarr;</button>
+        </span>
+      </form>
+    </nav>
+<!--         <ul class="pager" th:field="${padination}">
           <span th:if="${pagination.page}!=1">
             <li class="previous"><a th:href="@{/item/list?page=} + ${pagination.page-1}">&larr; prev</a></li>
           </span>
           <span th:if="${pagination.page}!=${pagination.totalPage}">
             <li class="next"><a th:href="@{/item/list?page=} + ${pagination.page+1}">next &rarr;</a></li>
           </span>
-        </ul>
-      </nav>
+        </ul> -->
+      
+    
       <!-- ページ番号を指定して表示するフォーム -->
       <div id="select-page">
-        <form class="form-inline" th:action="@{/item/list}" th:field="${pagination}" method="get">
+        <form class="form-inline" th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
+        <input type="hidden" name="name" th:field="*{name}">
+        <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
+        <input type="hidden" name="childCategory" th:field="*{childCategory}">
+        <input type="hidden" name="grandChild" th:field="*{grandChild}">
+        <input type="hidden" name="brandName" th:field="*{brandName}">
           <div class="form-group">
             <div class="input-group col-xs-6">
               <label></label>

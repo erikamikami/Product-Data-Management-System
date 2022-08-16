@@ -67,5 +67,10 @@ public interface ItemRepository {
 	public List<Item> search(@Param("itemSearch") ItemSearch itemSearch, @Param("pagination"
 			+ "") Pagination pagination);
 
+	/**
+	 * itemテーブル 検索結果の総レコード数を取得
+	 * @return
+	 */
+	public int countSearchItems(ItemSearch itemSearch);
 
 }

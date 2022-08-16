@@ -76,13 +76,22 @@ public class ItemService {
 	 * @throws IllegalArgumentException 
 	 */
 	public List<Item> search(ItemSearch itemSearch, Pagination pagination) throws IllegalArgumentException, IllegalAccessException{
-		System.out.println("検索条件は、" + itemSearch);
 		if(itemSearch.isAllAtributesNull()) {
 			System.out.println("全部nullです");
 			return itemRepository.findAll(pagination);
 		}
-		System.out.println("全部nullではないです");
 		return itemRepository.search(itemSearch, pagination);
+	}
+	
+	/**
+	 * ページング処理を行う(検索あり）
+	 * @param pagination
+	 * @return
+	 */
+	public Pagination pagingSearch(ItemSearch itemSearch, Pagination pagination){
+		pagination.setTotalDisplays(itemRepository.countSearchItems(itemSearch));
+		pagination.setTotalPage(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
+		return pagination;
 	}
 
 }

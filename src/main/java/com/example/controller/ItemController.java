@@ -63,21 +63,6 @@ public class ItemController {
 	@Autowired
 	private CategoryService categoryService;
 	
-//	/** item全件リストを表示
-//	 * @param pagination
-//	 * @param model
-//	 * @return
-//	 */
-//	@RequestMapping("/list")
-//	public String toShowItemList(Pagination pagination, Model model) {
-//		List<Item> itemList = itemService.getAllItems(pagination);
-//		pagination = itemService.paging(pagination);
-//		
-//		model.addAttribute("itemList", itemList);
-//		model.addAttribute("pagination", pagination);
-//		
-//		return "list";
-//	}
 	
 	/** itemリストを表示
 	 * @param pagination
@@ -90,10 +75,9 @@ public class ItemController {
 	public String toShowItemList(ItemSearchForm itemSearchForm, Pagination pagination, Model model) throws IllegalArgumentException, IllegalAccessException {
 		ItemSearch itemSearch = new ItemSearch();
 		BeanUtils.copyProperties(itemSearchForm, itemSearch);
-		System.out.println("itemSearchは、" + itemSearch);
 		
 		List<Item> itemList = itemService.search(itemSearch, pagination);
-		pagination = itemService.paging(pagination);
+		pagination = itemService.pagingSearch(itemSearch, pagination);
 		
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("pagination", pagination);
