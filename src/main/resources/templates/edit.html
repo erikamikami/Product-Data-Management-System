@@ -46,7 +46,7 @@
     <h2>Edit</h2>
 
     <!-- edit form -->
-    <form th:action="@{/item/edit/comp}" method="POST" class="form-horizontal" th:object="${itemForm}">
+    <form th:action="@{/item/edit/comp}" method="POST" class="form-horizontal" th:object="${itemEditForm}">
         <!-- id -->
         <input type="hidden" name="id" th:value="${item.id}">
         <!-- name -->

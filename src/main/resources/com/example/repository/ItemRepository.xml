@@ -4,10 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.repository.ItemRepository">
 
-<select id="countAllItems" resultType="int">
-  SELECT count(*) FROM items;
-</select>
-
 <select id="findAll" resultType="com.example.entity.Item" parameterType="com.example.pagination.Pagination">
   SELECT id, name, condition, category, brand_name, price, shipping, item_description
   FROM items
@@ -88,7 +84,7 @@
 
 </select>
 
-<select id="countSearchItems" resultType="int" parameterType="com.example.entity.ItemSearch">
+<select id="countItems" resultType="int" parameterType="com.example.entity.ItemSearch">
   SELECT count(*)
   FROM items
   WHERE 1 = 1

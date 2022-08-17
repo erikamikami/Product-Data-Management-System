@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -52,71 +55,47 @@ class CategoryRepositoryTest {
 		assertEquals(expectedParentCategoryListSize, actual.size());
 	}
 
+	
 	@Test
-	@DisplayName("parentCategoryの名前からparentIdListを取得できているか")
-	public void findParentIdByParentCategoryTest() {
-		// 期待値
-		int expectedParentIdListSize = 109;
-
+	@DisplayName("parentCategoryの名前からchildCategoryを取得できているか")
+	public void findChildCategoryByParentCategoryTest() {
 		// 引数
-		String arg = "Men";
-
-		// 実際
-		List<Integer> actual = categoryRepository.findParentIdByParentCategory(arg);
-
-		// 結果
-		assertEquals(expectedParentIdListSize, actual.size());
-	}
-
-	@Test
-	@DisplayName("parentIdからchildCategoryを取得できているか")
-	public void findChildCategoryByParentCategoryIdTest() {
+		String arg = "Other";
+		
 		// 期待値
 		List<String> expected = new ArrayList<>();
+		expected.add("Automotive");
+		expected.add("Books");
+		expected.add("Daily & Travel items");
+		expected.add("Magazines");
+		expected.add("Musical instruments");
 		expected.add("Office supplies");
-		expected.add("Daily & Travel items");
+		expected.add("Other");
 		expected.add("Pet Supplies");
-		expected.add("Daily & Travel items");
 		Collections.sort(expected);
-
-		int expectedChildCategoryListSize = 4;
-
-		// 引数 (parentNameが"Other"で検証）
-		List<Integer> args = new ArrayList<>();
-		args.add(37);
-		args.add(223);
-		args.add(268);
-		args.add(283);
-
+		
+		int expectedChildCategoryListSize = 8;
+		
 		// 実際
-		List<String> actual = categoryRepository.findChildCategoryByParentCategoryId(args);
-
+		List<String> actual = categoryRepository.findChildCategoryByParentCategory(arg);
+		Set<String> actualSet = new TreeSet<>(actual);
+		Iterator<String> iterator = actualSet.iterator();
+		
 		// 結果
 		for (int i = 0; i < expectedChildCategoryListSize; i++) {
-			assertEquals(expected.get(i), actual.get(i));
+			assertEquals(expected.get(i), iterator.next());
 		}
-
+		
+		assertEquals(expectedChildCategoryListSize, actualSet.size());
 	}
 
+	
 	@Test
-	@DisplayName("childCategoryの名前からchildIdListを取得できているか")
-	public void findChildIdByChildCategoryTest() {
-		// 期待値
-		int expectedChildIdListSize = 9;
-
+	@DisplayName("childCategoryの名前からgrandChildを取得できているか")
+	public void findGrandChildByChildCategoryTest() {
 		// 引数
-		String arg = "Tops";
-
-		// 実際
-		List<Integer> actual = categoryRepository.findChildIdByChildCategory(arg);
-
-		// 結果
-		assertEquals(expectedChildIdListSize, actual.size());
-	}
-
-	@Test
-	@DisplayName("childIdからgrandCategoryを取得できているか")
-	public void findGrandChildCategoryByChildCategoryIdTest() {
+		String arg = "Computers & Tablets";
+		
 		// 期待値
 		List<String> expected = new ArrayList<>();
 		expected.add("Components & Parts");
@@ -126,22 +105,16 @@ class CategoryRepositoryTest {
 		Collections.sort(expected);
 		
 		int expectedGrandChildCategoryListSize = 4;
-
-		// 引数(childNameが"Computers & Tablets"で検証）
-		List<Integer> args = new ArrayList<>();
-		args.add(5);
-		args.add(395);
-		args.add(806);
-		args.add(875);
-
+		
 		// 実際
-		List<String> actual = categoryRepository.findGrandChildCategoryByChildCategoryId(args);
+		List<String> actual = categoryRepository.findGrandChildByChildCategory(arg);
 
 		// 結果
 		for (int i = 0; i < expectedGrandChildCategoryListSize; i++) {
 			assertEquals(expected.get(i), actual.get(i));
 		}
 
+		
 	}
 
 }

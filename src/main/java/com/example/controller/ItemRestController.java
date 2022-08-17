@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,11 @@ public class ItemRestController {
 	/**
 	 * parentCategoryを選択後、それに結びついたchildCategoryを提示
 	 * @param parentCategory
-	 * @return
+	 * @return childCategory
 	 */
 	@RequestMapping("/getChildCategory")
 	public Set<String> getChildCategory(String parentCategory){
-		Set<String> childCategoryList = categoryService.getChildCategoryList(parentCategory);
+		Set<String> childCategoryList = categoryService.getChildCategory(parentCategory);
 		
 		return childCategoryList;
 	}
@@ -32,11 +30,11 @@ public class ItemRestController {
 	/**
 	 * childCategoryを選択後、それに結びついたbrandCategoryを提示
 	 * @param childCategory
-	 * @return
+	 * @return brandCategory
 	 */
 	@RequestMapping("/getGrandCategory")
 	public Set<String> getGrandcategory(String childCategory){
-		Set<String> grandCategoryList = categoryService.getGrandCategoryList(childCategory);
+		Set<String> grandCategoryList = categoryService.getGrandChild(childCategory);
 		
 		return grandCategoryList;
 	}

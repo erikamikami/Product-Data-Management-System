@@ -20,11 +20,11 @@ public class CategoryService {
 	 * parentCategoryを取得する
 	 * @return
 	 */
-	public Set<String> getParentCategoryList(){
-		List<String> TemporaryParentCategoryList = categoryRepository.findParentCategory();
-		TemporaryParentCategoryList.add(0, "");
-		Set<String> parentCategoryList = new TreeSet<>(TemporaryParentCategoryList);
-		return parentCategoryList;
+	public Set<String> getParentCategory(){
+		List<String> parentCategoryList = categoryRepository.findParentCategory();
+		parentCategoryList.add(0, "");
+		Set<String> parentCategorySet = new TreeSet<>(parentCategoryList);
+		return parentCategorySet;
 	}
 	
 	/**
@@ -33,9 +33,9 @@ public class CategoryService {
 	 * @return
 	 */
 	@Transactional
-	public Set<String> getChildCategoryList(String parentCategory){
-		List<Integer> parentIdList = categoryRepository.findParentIdByParentCategory(parentCategory);
-		List<String> childCategoryList = categoryRepository.findChildCategoryByParentCategoryId(parentIdList);
+	public Set<String> getChildCategory(String parentCategory){
+		List<String> childCategoryList = categoryRepository.findChildCategoryByParentCategory(parentCategory);
+		childCategoryList.add(0, "");
 		Set<String> childCategorySet = new TreeSet<>(childCategoryList);
 		
 		return childCategorySet;
@@ -47,9 +47,9 @@ public class CategoryService {
 	 * @param childCategory
 	 * @return
 	 */
-	public Set<String> getGrandCategoryList(String childCategory){
-		List<Integer> childIdList = categoryRepository.findChildIdByChildCategory(childCategory);
-		List<String> grandCategoryList = categoryRepository.findGrandChildCategoryByChildCategoryId(childIdList);
+	public Set<String> getGrandChild(String childCategory){
+		List<String> grandCategoryList = categoryRepository.findGrandChildByChildCategory(childCategory);
+		grandCategoryList.add(0, "");
 		Set<String> grandCategorySet = new TreeSet<>(grandCategoryList);
 		
 		return grandCategorySet;
@@ -59,10 +59,10 @@ public class CategoryService {
 	 * childCategoryを取得
 	 * @return
 	 */
-	public Set<String> findChildCategory(){
-		List<String> temporaryChildCategoryList = categoryRepository.findChildCategory();
-		temporaryChildCategoryList.add(0, "");
-		Set<String> childCategorySet = new TreeSet<>(temporaryChildCategoryList);
+	public Set<String> getChildCategory(){
+		List<String> childCategoryList = categoryRepository.findChildCategory();
+		childCategoryList.add(0, "");
+		Set<String> childCategorySet = new TreeSet<>(childCategoryList);
 		
 		return childCategorySet;
 	}
@@ -71,10 +71,10 @@ public class CategoryService {
 	 * grandChildを取得
 	 * @return
 	 */
-	public Set<String> findGrandChild(){
-		List<String> temporaryGrandCategoryList = categoryRepository.findGrandChild();
-		temporaryGrandCategoryList.add(0, "");
-		Set<String> grandCategorySet = new TreeSet<>(temporaryGrandCategoryList);
+	public Set<String> getGrandChild(){
+		List<String> grandCategoryList = categoryRepository.findGrandChild();
+		grandCategoryList.add(0, "");
+		Set<String> grandCategorySet = new TreeSet<>(grandCategoryList);
 		
 		return grandCategorySet;
 	}

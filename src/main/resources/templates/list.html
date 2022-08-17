@@ -84,20 +84,10 @@
       </form>
     </div>
 
-    <!-- pagination -->
-    <div class="pages">
-      <nav class="page-nav">
-        <ul class="pager">
-          <span th:if="${pagination.page}!=1">
-            <li class="previous"><a th:href="@{/item/list?page=} + ${pagination.page-1}">&larr; prev</a></li>
-          </span>
-          <span th:if="${pagination.page}!=${pagination.totalPage}">
-            <li class="next"><a th:href="@{/item/list?page=} + ${pagination.page+1}">next &rarr;</a></li>
-          </span>
-        </ul>
-      </nav>
+    <div>
+      <p th:text="${falseSearch}">
     </div>
-
+    
     <!-- table -->
     <div class="table-responsive">
       <table id="item-table" class="table table-hover table-condensed">
@@ -143,7 +133,7 @@
         <input type="hidden" name="grandChild" th:field="*{grandChild}">
         <input type="hidden" name="brandName" th:field="*{brandName}">
         <input type="hidden" name="page" th:value="${pagination.page+1}">
-        <span th:if="${pagination.page}!=${pagination.totalPage}">
+        <span th:if="${pagination.page} != ${pagination.totalPage} and ${pagination.totalPage} != 0">
           <button>next &rarr;</button>
         </span>
       </form>

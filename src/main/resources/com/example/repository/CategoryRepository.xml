@@ -20,35 +20,33 @@
   AND name_all IS NULL
 </select>
 
-<!--　parentIdListからChildCategoryを取得　-->
-<select id="findChildCategoryByParentCategoryId" parameterType="Integer" resultType="String">
+
+<!--　parentCategoryからChildCategoryを取得　-->
+<select id="findChildCategoryByParentCategory" parameterType="String" resultType="String">
   SELECT category_name FROM category
   WHERE parent_id IS NOT NULL 
   AND name_all IS NULL 
-  AND parent_id IN
-  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-    #{item}
-  </foreach>
+  AND parent_id IN (
+    SELECT id FROM category
+    WHERE category_name = #{parentCategory}
+    AND parent_id IS NULL
+    AND name_all IS NULL
+  )
   ORDER BY category_name ASC
 </select>
 
-<!-- childCategoryの名前からchildIdを取得 -->
-<select id="findChildIdByChildCategory" parameterType="String" resultType="Integer">
-  SELECT id FROM category
-  WHERE category_name = #{parentCategory}
-  AND parent_id IS NOT NULL
-  AND name_all IS NULL
-</select>
 
 <!-- ChildIdListからgrandCategoryを取得 -->
-<select id="findGrandChildCategoryByChildCategoryId" parameterType="Integer" resultType="String">
+<select id="findGrandChildByChildCategory" parameterType="String" resultType="String">
   SELECT category_name FROM category
   WHERE parent_id IS NOT NULL 
   AND name_all IS NOT NULL
-  AND parent_id IN
-  <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
-    #{item}
-  </foreach>
+  AND parent_id IN (
+    SELECT id FROM category
+    WHERE category_name = #{parentCategory}
+    AND parent_id IS NOT NULL
+    AND name_all IS NULL
+  )
   ORDER BY category_name ASC
 </select>
 

@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.entity.Item;
+import com.example.entity.ItemSearch;
 import com.example.pagination.Pagination;
 import com.example.repository.ItemRepository;
 
@@ -57,12 +58,14 @@ class ItemServiceTest {
 		int totalPage = expected.getTotalDisplays()/expected.getDisplaysPerPage();
 		totalPage++;
 		
-		when(itemRepository.countAllItems()).thenReturn(593381);
+		ItemSearch itemSearch = new ItemSearch();
+		
+		when(itemRepository.countItems(itemSearch)).thenReturn(593381);
 		
 		// 実際
 		Pagination testMaterial = new Pagination();
 		testMaterial.setPage(5);
-		Pagination actual = itemService.paging(testMaterial);
+		Pagination actual = itemService.paging(itemSearch, testMaterial);
 		
 		// 結果
 		assertEquals(expected.getPage(), actual.getPage());

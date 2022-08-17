@@ -24,15 +24,16 @@ public class ItemSearch {
 	 * フィールドの値が全てnullかどうか判定する
 	 * 
 	 * @return
-	 * 全てnullの場合：true
-	 * 全てnullではない場合：false
+	 * 全てnullまたは空文字の場合：true
+	 * 全てnullまたは空文字ではない場合：false
 	 * 
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public boolean isAllAtributesNull() throws IllegalArgumentException, IllegalAccessException {
+	public boolean isAllAtributesNull() throws IllegalArgumentException, IllegalAccessException  {
 		int fieldQuantity = 5;
 		int nullCount = 0;
+		
 		for(Field field : this.getClass().getDeclaredFields()) {
 			if(field.get(this)==null || field.get(this)=="") {
 				nullCount++;

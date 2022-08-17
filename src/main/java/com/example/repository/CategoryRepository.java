@@ -14,30 +14,18 @@ public interface CategoryRepository {
 	public List<String> findParentCategory();
 	
 	/**
-	 * parentCategoryの名前からparentIdListを取得
+	 * parentCategoryの名前からchildCategoryを取得
+	 * @param parentCategory
 	 * @return
 	 */
-	public List<Integer> findParentIdByParentCategory(String parentCategory);
+	public List<String> findChildCategoryByParentCategory(String parentCategory);
 	
 	/**
-	 * parentIdListからchildCategoryを取得
+	 * childCategoryの名前からgrandChildを取得
+	 * @param childCayegory
 	 * @return
 	 */
-	public List<String> findChildCategoryByParentCategoryId(List<Integer> parentIdList);
-	
-	/**
-	 * childCategoryの名前からchildIdListを取得
-	 * @return
-	 */
-	public List<Integer> findChildIdByChildCategory(String childCategory);
-	
-	
-	/**
-	 * childIdからgrandCategoryを取得
-	 * @param chileIdList
-	 * @return
-	 */
-	public List<String> findGrandChildCategoryByChildCategoryId(List<Integer> chileIdList);
+	public List<String> findGrandChildByChildCategory(String childCayegory);
 	
 	/**
 	 * childCategoryを取得

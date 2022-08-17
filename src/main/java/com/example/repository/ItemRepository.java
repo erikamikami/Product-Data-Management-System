@@ -13,13 +13,7 @@ import com.example.pagination.Pagination;
 public interface ItemRepository {
 	
 	/**
-	 * itemテーブルの総レコード数を取得
-	 * @return
-	 */
-	public int countAllItems();
-	
-	/**
-	 * itemを全て取得（ページングあり）
+	 * itemを全件検索する
 	 * @param pagination
 	 * @return
 	 */
@@ -52,7 +46,7 @@ public interface ItemRepository {
 	
 	
 	/**
-	 * itemを検索する（ページングあり）
+	 * itemを検索する
 	 * 
 	 * 検索項目
 	 * ・name
@@ -64,13 +58,12 @@ public interface ItemRepository {
 	 * @param item
 	 * @return
 	 */
-	public List<Item> search(@Param("itemSearch") ItemSearch itemSearch, @Param("pagination"
-			+ "") Pagination pagination);
+	public List<Item> search(@Param("itemSearch") ItemSearch itemSearch, @Param("pagination") Pagination pagination);
 
 	/**
-	 * itemテーブル 検索結果の総レコード数を取得
+	 * itemテーブル 総レコード数を取得
 	 * @return
 	 */
-	public int countSearchItems(ItemSearch itemSearch);
+	public int countItems(ItemSearch itemSearch);
 
 }

@@ -12,9 +12,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ItemForm {
+public class ItemEditForm {
 	
-	private String id;
+	private Integer id;
 	
 	@NotBlank(message = "error:may not be empty")
 	private String name;
@@ -34,7 +34,7 @@ public class ItemForm {
 
 	private String brandName;
 	
-	@NotBlank(message = "error:may not be empty")
+	@NotNull(message = "error:may not be empty")
 	private String price;
 	
 	@NotNull(message = "error:may not be empty")
@@ -44,10 +44,10 @@ public class ItemForm {
 	private String itemDescription;
 	
   
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -65,8 +65,8 @@ public class ItemForm {
 	public String getCategory() {
 		return category;
 	}
-	public void setCategory(String parentCategory, String childCategory, String grandChild) {
-		this.category = parentCategory + "/" + childCategory + "/" + grandChild;
+	public void setCategory() {
+		this.category = this.parentCategory + "/" + this.childCategory + "/" + this.grandChild;
 	}
 	public String getParentCategory() {
 		return parentCategory;
