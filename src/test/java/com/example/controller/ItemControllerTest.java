@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.example.entity.Item;
+import com.example.entity.ItemSearch;
 import com.example.pagination.Pagination;
 import com.example.service.ItemService;
 
@@ -65,6 +66,8 @@ class ItemControllerTest {
 		pagination.setTotalDisplays(1482535);
 		pagination.setTotalPage(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
 		
+		ItemSearch itemSearch = new ItemSearch();
+		
 		List<Item> itemList = new ArrayList<>() {
 			{
 				add(new Item(0, "MLB Cincinnati Reds T Shirt Size XL", 3, "Men/Tops/T-shirts0", null, 10.0, 1, "No description yet"));
@@ -73,7 +76,7 @@ class ItemControllerTest {
 		};
 		
 		when(itemService.getAllItems(pagination)).thenReturn(itemList);
-		when(itemService.paging(pagination)).thenReturn(pagination);
+		when(itemService.paging(itemSearch, pagination)).thenReturn(pagination);
 		
 		// 引数作成
 		Pagination argument = new Pagination();

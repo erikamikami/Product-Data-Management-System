@@ -28,17 +28,6 @@ public class ItemService {
 	}
 	
 	/**
-	 * ページング処理を行う
-	 * @param pagination
-	 * @return
-	 */
-	public Pagination paging(Pagination pagination){
-		pagination.setTotalDisplays(itemRepository.countAllItems());
-		pagination.setTotalPage(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
-		return pagination;
-	}
-	
-	/**
 	 * idからitem詳細を取得する
 	 * @param id
 	 * @return
@@ -77,19 +66,18 @@ public class ItemService {
 	 */
 	public List<Item> search(ItemSearch itemSearch, Pagination pagination) throws IllegalArgumentException, IllegalAccessException{
 		if(itemSearch.isAllAtributesNull()) {
-			System.out.println("全部nullです");
 			return itemRepository.findAll(pagination);
 		}
 		return itemRepository.search(itemSearch, pagination);
 	}
 	
 	/**
-	 * ページング処理を行う(検索あり）
+	 * ページング処理を行う
 	 * @param pagination
 	 * @return
 	 */
-	public Pagination pagingSearch(ItemSearch itemSearch, Pagination pagination){
-		pagination.setTotalDisplays(itemRepository.countSearchItems(itemSearch));
+	public Pagination paging(ItemSearch itemSearch, Pagination pagination){
+		pagination.setTotalDisplays(itemRepository.countItems(itemSearch));
 		pagination.setTotalPage(pagination.getDisplaysPerPage(), pagination.getTotalDisplays());
 		return pagination;
 	}

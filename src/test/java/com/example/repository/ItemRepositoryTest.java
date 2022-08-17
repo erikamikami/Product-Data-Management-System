@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import com.example.entity.Item;
+import com.example.entity.ItemSearch;
 import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 
@@ -42,18 +43,6 @@ class ItemRepositoryTest {
 	void tearDown() throws Exception {
 	}
 
-	@Test
-	@DisplayName("itemテーブルの総レコード数を取得できているか")
-	public void countAllItemsTest() {
-		// 期待値
-		int expected = 1482535;
-		
-		// 実際
-		int actual = itemRepository.countAllItems();
-		
-		// 結果
-		assertEquals(expected, actual);
-	}
 	
 	@Test
 	@DisplayName("itemを全て取得し、ページングができているか")
@@ -123,7 +112,8 @@ class ItemRepositoryTest {
 	public void insertTest() {
 		// 登録前の事前確認
 		int beforeInsertCntExpected = 1482535; //登録前の登録件数期待値
-		int beforeInsertCntActual = itemRepository.countAllItems();
+		ItemSearch itemSearch = new ItemSearch();
+		int beforeInsertCntActual = itemRepository.countItems(itemSearch);
 		assertEquals(beforeInsertCntExpected, beforeInsertCntActual);
 		
 		// 登録対象itemオブジェクト作成
@@ -135,7 +125,7 @@ class ItemRepositoryTest {
 		
 		// 登録後 件数確認
 		int afterInsertCntExpected = 1482536; //登録前の登録件数期待値
-		int afterInsertCntActual = itemRepository.countAllItems();
+		int afterInsertCntActual = itemRepository.countItems(itemSearch);
 		assertEquals(afterInsertCntExpected, afterInsertCntActual);
 		
 	}
@@ -182,17 +172,17 @@ class ItemRepositoryTest {
 		expectedIdList.add(151);
 		
 		// 検索フォーム
-		ItemSearchForm itemForm = new ItemSearchForm();
-		itemForm.setParentCategory("Men");
-		itemForm.setChildCategory("Tops");
-		itemForm.setGrandChild("T-shirts");
+		ItemSearch itemSearch = new ItemSearch();
+		itemSearch.setParentCategory("Men");
+		itemSearch.setChildCategory("Tops");
+		itemSearch.setGrandChild("T-shirts");
 		
 		// ページング
 		Pagination pagination = new Pagination();
 		pagination.setDisplaysPerPage(3);
 		
 		// 実際
-		List<Item> actual = itemRepository.search(itemForm, pagination);
+		List<Item> actual = itemRepository.search(itemSearch, pagination);
 		
 		System.out.println(actual);
 		
@@ -214,15 +204,15 @@ class ItemRepositoryTest {
 		expectedIdList.add(2479);
 		
 		// 検索フォーム
-		ItemSearchForm itemForm = new ItemSearchForm();
-		itemForm.setName("Lebron");
+		ItemSearch itemSearch = new ItemSearch();
+		itemSearch.setName("Lebron");
 		
 		// ページング
 		Pagination pagination = new Pagination();
 		pagination.setDisplaysPerPage(3);
 		
 		// 実際
-		List<Item> actual = itemRepository.search(itemForm, pagination);
+		List<Item> actual = itemRepository.search(itemSearch, pagination);
 		
 		// テスト
 		assertEquals(pagination.getDisplaysPerPage(), actual.size());
@@ -242,15 +232,15 @@ class ItemRepositoryTest {
 		expectedIdList.add(116);
 		
 		// 検索フォーム
-		ItemSearchForm itemForm = new ItemSearchForm();
-		itemForm.setBrandName("Nike");
+		ItemSearch itemSearch = new ItemSearch();
+		itemSearch.setBrandName("Nike");
 		
 		// ページング
 		Pagination pagination = new Pagination();
 		pagination.setDisplaysPerPage(3);
 		
 		// 実際
-		List<Item> actual = itemRepository.search(itemForm, pagination);
+		List<Item> actual = itemRepository.search(itemSearch, pagination);
 		
 		// テスト
 		assertEquals(pagination.getDisplaysPerPage(), actual.size());

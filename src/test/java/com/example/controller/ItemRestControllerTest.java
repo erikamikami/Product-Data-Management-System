@@ -67,7 +67,7 @@ class ItemRestControllerTest {
 		// レスポンス期待値
 		String json = "[\"Athletic Apparel\",\"Shoes\",\"Tops\"]";
 		
-		when(categoryService.getChildCategoryList(parentCategory)).thenReturn(childCategoryList);
+		when(categoryService.getChildCategory(parentCategory)).thenReturn(childCategoryList);
 		
 		MvcResult result = mockMvc.perform(
 				post("/rest/item/getChildCategory")
@@ -99,7 +99,7 @@ class ItemRestControllerTest {
 		// レスポンス期待値
 		String json = "[\"Button-Front\",\"Polo  Rugby\",\"T-shirts\"]";
 		
-		when(categoryService.getGrandCategoryList(childCategory)).thenReturn(grandCategoryList);
+		when(categoryService.getGrandChild(childCategory)).thenReturn(grandCategoryList);
 		
 		MvcResult result = mockMvc.perform(
 				post("/rest/item/getGrandCategory")

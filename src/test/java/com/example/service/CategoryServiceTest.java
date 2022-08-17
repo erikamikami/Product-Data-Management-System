@@ -55,6 +55,7 @@ class CategoryServiceTest {
 	public void getParentCategoryListTest() {
 		// 期待値
 		Set<String> expected = new TreeSet<>();
+		expected.add("");
 		expected.add("Men");
 		expected.add("Electronics");
 		expected.add("Women");
@@ -73,7 +74,7 @@ class CategoryServiceTest {
 		when(categoryRepository.findParentCategory()).thenReturn(parentCategoryList);
 		
 		// 実際
-		Set<String> actual = categoryService.getParentCategoryList();
+		Set<String> actual = categoryService.getParentCategory();
 		
 		// 結果
 		assertEquals(expected, actual);
@@ -84,6 +85,7 @@ class CategoryServiceTest {
 	public void getChildCategoryListTest() {
 		// 期待値
 		Set<String> expected = new TreeSet<>();
+		expected.add("");
 		expected.add("Tops & Blouses");
 		expected.add("Jewelry");
 		expected.add("Other");
@@ -92,16 +94,6 @@ class CategoryServiceTest {
 		
 		String parentCategory = "Women";
 		
-		List<Integer> parentIdList = new ArrayList<>();
-		parentIdList.add(7);
-		parentIdList.add(13);
-		parentIdList.add(16);
-		parentIdList.add(19);
-		parentIdList.add(34);
-		
-		
-		when(categoryRepository.findParentIdByParentCategory(parentCategory)).thenReturn(parentIdList);
-		
 		List<String> childCategoryList = new ArrayList<>();
 		childCategoryList.add("Tops & Blouses");
 		childCategoryList.add("Jewelry");
@@ -109,10 +101,10 @@ class CategoryServiceTest {
 		childCategoryList.add("Swimwear");
 		childCategoryList.add("Dresses");
 		
-		when(categoryRepository.findChildCategoryByParentCategoryId(parentIdList)).thenReturn(childCategoryList);
+		when(categoryRepository.findChildCategoryByParentCategory(parentCategory)).thenReturn(childCategoryList);
 		
 		// 実際
-		Set<String> actual = categoryService.getChildCategoryList(parentCategory);
+		Set<String> actual = categoryService.getChildCategory(parentCategory);
 		
 		// 結果
 		assertEquals(expected, actual);

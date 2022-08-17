@@ -17,7 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.entity.Item;
 import com.example.entity.ItemSearch;
-import com.example.form.ItemForm;
+import com.example.form.ItemEditForm;
+import com.example.form.ItemAddForm;
 import com.example.form.ItemSearchForm;
 import com.example.pagination.Pagination;
 import com.example.service.CategoryService;
@@ -34,8 +35,13 @@ public class ItemController {
 	}
 	
 	@ModelAttribute
-	public ItemForm setUpToItemForm() {
-		return new ItemForm();
+	public ItemAddForm setUpToItemAddForm() {
+		return new ItemAddForm();
+	}
+	
+	@ModelAttribute
+	public ItemEditForm setUpToItemEditForm() {
+		return new ItemEditForm();
 	}
 	
 	@ModelAttribute
@@ -43,19 +49,22 @@ public class ItemController {
 		return new ItemSearchForm();
 	}
 	
+	/**	親カテゴリ検索時のプルダウン表示用 **/
 	@ModelAttribute(name = "parentCategorySearchList")
 	public Set<String> setParentcategory(){
-		return categoryService.getParentCategoryList();
+		return categoryService.getParentCategory();
 	}
 	
+	/**	子カテゴリ検索時のプルダウン表示用 **/
 	@ModelAttribute(name = "childCategorySearchList")
 	public Set<String> setChildcategory(){
-		return categoryService.findChildCategory();
+		return categoryService.getChildCategory();
 	}
 	
+	/**	孫カテゴリ検索時のプルダウン表示用 **/
 	@ModelAttribute(name = "grandChildSearchList")
 	public Set<String> setGrandcategory(){
-		return categoryService.findGrandChild();
+		return categoryService.getGrandChild();
 	}
 	
 	@Autowired
@@ -65,20 +74,26 @@ public class ItemController {
 	private CategoryService categoryService;
 	
 	
-	/** itemリストを表示
+	/** item一覧画面を表示
 	 * @param pagination
 	 * @param model
-	 * @return
+	 * @return itemリスト表示画面
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
 	 */
 	@RequestMapping("/list")
-	public String toShowItemList(ItemSearchForm itemSearchForm, Pagination pagination, Model model) throws IllegalArgumentException, IllegalAccessException {
+	public String toShowItemList(ItemSearchForm itemSearchForm, Pagination pagination, Model model)  {
 		ItemSearch itemSearch = new ItemSearch();
 		BeanUtils.copyProperties(itemSearchForm, itemSearch);
 		
-		List<Item> itemList = itemService.search(itemSearch, pagination);
-		pagination = itemService.pagingSearch(itemSearch, pagination);
+		List<Item> itemList;
+		try {
+			itemList = itemService.search(itemSearch, pagination);
+		} catch (Exception e) {
+			model.addAttribute("falseSearch", "The search failed");
+			return "list";
+		} 
+		pagination = itemService.paging(itemSearch, pagination);
 		
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("pagination", pagination);
@@ -88,7 +103,7 @@ public class ItemController {
 	
 	
 	/**
-	 * item詳細リストを表示
+	 * item詳細画面を表示
 	 * @param id
 	 * @param model
 	 * @return
@@ -102,32 +117,32 @@ public class ItemController {
 	
 
 	/**
-	 * item新規追加画面へ遷移
+	 * item新規追加画面を表示
 	 * @return
 	 */
 	@RequestMapping("/add")
 	public String toShowItemAddForm(Model model) {
-		Set<String> parentCategoryList = categoryService.getParentCategoryList();
+		Set<String> parentCategoryList = categoryService.getParentCategory();
 		model.addAttribute("parentCategoryList", parentCategoryList);
 		return "add";
 	}
 	
 	/**
-	 * item新規追加
+	 * item新規追加を行い、item詳細画面を表示
 	 * @return
 	 */
 	@RequestMapping("/add/comp")
-	public String itemAdd(@Validated ItemForm itemForm, BindingResult result, RedirectAttributes redirectAttribute) {
+	public String itemAdd(@Validated ItemAddForm itemAddForm, BindingResult result, RedirectAttributes redirectAttribute) {
 		if(result.hasErrors()) {
-			redirectAttribute.addFlashAttribute(itemForm);
-			redirectAttribute.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(itemForm), result);
+			redirectAttribute.addFlashAttribute(itemAddForm);
+			redirectAttribute.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(itemAddForm), result);
 			return "redirect:/item/add";
 		}
 		
-		itemForm.setCategory(itemForm.getParentCategory(), itemForm.getChildCategory(), itemForm.getGrandChild());
+		itemAddForm.setCategory();
 		Item item = new Item();
-		BeanUtils.copyProperties(itemForm, item);
-		item.setPrice(Double.parseDouble(itemForm.getPrice()));
+		BeanUtils.copyProperties(itemAddForm, item);
+		item.setPrice(Double.parseDouble(itemAddForm.getPrice()));
 		
 		itemService.register(item);
 		
@@ -135,7 +150,7 @@ public class ItemController {
 	}
 
 	/**
-	 * item情報編集画面遷移
+	 * item編集画面を表示
 	 * @param id
 	 * @return
 	 */
@@ -148,19 +163,19 @@ public class ItemController {
 		
 		// parentCategory
 		String originalParentCategory = categoryArray[0];
-		Set<String> parentCategoryList = categoryService.getParentCategoryList();
+		Set<String> parentCategoryList = categoryService.getParentCategory();
 		model.addAttribute("originalParentCategory", originalParentCategory);
 		model.addAttribute("parentCategoryList", parentCategoryList);
 		
 		// childCategory
 		String originalChildCategory = categoryArray[1];
-		Set<String> childCategoryList = categoryService.getChildCategoryList(originalParentCategory);
+		Set<String> childCategoryList = categoryService.getChildCategory(originalParentCategory);
 		model.addAttribute("originalChildCategory", originalChildCategory);
 		model.addAttribute("childCategoryList", childCategoryList);
 		
 		// grandCategory
 		String originalGrandCategory = categoryArray[2];
-		Set<String> grandCategoryList = categoryService.getGrandCategoryList(originalChildCategory);
+		Set<String> grandCategoryList = categoryService.getGrandChild(originalChildCategory);
 		model.addAttribute("originalGrandCategory", originalGrandCategory);
 		model.addAttribute("grandCategoryList", grandCategoryList);
 		
@@ -168,29 +183,30 @@ public class ItemController {
 	}
 	
 	/**
-	 * itemを編集する
-	 * @param itemForm
+	 * itemを編集し、item詳細画面を表示
+	 * @param itemEditForm
 	 * @param result
 	 * @param redirectAttribute
 	 * @return
 	 */
 	@RequestMapping("/edit/comp")
-	public String itemEdit(@Validated ItemForm itemForm, BindingResult result, RedirectAttributes redirectAttribute) {
+	public String itemEdit(@Validated ItemEditForm itemEditForm, BindingResult result, RedirectAttributes redirectAttribute) {
 		if(result.hasErrors()) {
-			redirectAttribute.addFlashAttribute(itemForm);
-			redirectAttribute.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(itemForm), result);
-			redirectAttribute.addAttribute("id", itemForm.getId());
+			redirectAttribute.addFlashAttribute(itemEditForm);
+			redirectAttribute.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + Conventions.getVariableName(itemEditForm), result);
+			redirectAttribute.addAttribute("id", itemEditForm.getId());
 			return "redirect:/item/edit";
 		}
 		
-		itemForm.setCategory(itemForm.getParentCategory(), itemForm.getChildCategory(), itemForm.getGrandChild());
+		itemEditForm.setCategory();
+		
 		Item item = new Item();
-		BeanUtils.copyProperties(itemForm, item);
-		item.setPrice(Double.parseDouble(itemForm.getPrice()));
+		BeanUtils.copyProperties(itemEditForm, item);
+		item.setPrice(Double.parseDouble(itemEditForm.getPrice()));
 		
 		itemService.edit(item);
 		
-		redirectAttribute.addAttribute("id", itemForm.getId());
+		redirectAttribute.addAttribute("id", itemEditForm.getId());
 		return "redirect:/item/detail";
 	}
 	

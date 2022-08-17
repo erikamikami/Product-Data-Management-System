@@ -46,7 +46,7 @@
     <h2>Add</h2>
 
     <!-- add form -->
-    <form th:action="@{/item/add/comp}" method="POST" class="form-horizontal" th:object="${itemForm}">
+    <form th:action="@{/item/add/comp}" method="POST" class="form-horizontal" th:object="${itemAddForm}">
       <!-- name -->
       <div class="form-group">
         <label for="inputName" class="col-sm-2 control-label">name</label>
@@ -69,7 +69,7 @@
         <div class="col-sm-8">
           <label>-- parentCategory --</label>
           <span th:errors="*{parentCategory}" class="text-danger"></span>
-            <select id="parentCategory" class="form-control" name="parentCategory">
+            <select id="parentCategory" class="form-control" name="parentCategory" th:field="*{parentCategory}">
               <span th:each="parentCategory : ${parentCategoryList}">
                 <option th:text="${parentCategory}" th:value="${parentCategory}"></option>
               </span>
@@ -78,10 +78,10 @@
       </div>
       <div class="form-group">
         <label for="category" class="col-sm-2 control-label"></label>
-        <span th:errorss="*{childCategory}" class="text-danger"></span>
         <div class="col-sm-8">
           <label>-- childCategory --</label>
-            <select id="childCategory" class="form-control" name="childCategory">
+          <span th:errors="*{childCategory}" class="text-danger"></span>
+            <select id="childCategory" class="form-control" name="childCategory" th:field="*{childCategory}">
             </select>
           </div>
       </div>
@@ -150,7 +150,7 @@
         <label for="description" class="col-sm-2 control-label">description</label>
         <div class="col-sm-8">
           <textarea name="description" id="description" class="form-control" rows="5" th:field="*{itemDescription}"></textarea>
-          <span th:errors="${itemForm.itemDescription}" class="text-danger"></span>
+          <span th:errors="*{itemDescription}" class="text-danger"></span>
         </div>
       </div>
       <!-- submit button -->
