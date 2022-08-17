@@ -30,9 +30,11 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a id="logout" href="./login.html">Logout <i class="fa fa-power-off"></i></a></li>
-        </ul>
+        <form th:action="@{/logout}" method="post" name="logout">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a id="logout" onclick="document.logout.submit();">Logout <i class="fa fa-power-off"></i></a></li>
+          </ul>
+        </form>
         <p class="navbar-text navbar-right">
           <span id="loginName">user: userName</span>
         </p>
