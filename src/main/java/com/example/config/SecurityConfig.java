@@ -29,11 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.failureUrl("/login?failed")
 		.defaultSuccessUrl("/item/list")
 		
-		
 		.and()
 		.logout()
 		.logoutUrl("/logout").permitAll()
-		.logoutSuccessUrl("/logout")
+		.logoutSuccessUrl("/login")
 		.invalidateHttpSession(true)
 		.deleteCookies("JSESSIONID")
 		;
