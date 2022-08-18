@@ -28,7 +28,9 @@
     <div class="panel panel-default">
       <div class="panel-heading">Login</div>
       <div class="panel-body">
-        <p class="text-danger">error:failed to login</p>
+      <div th:if="${param.failed}" style="color:red">
+        <p class="text-danger">error:failed to login</P>
+      </div>
         <form th:action="@{/login}" method="POST">
           <div class="form-group">
             <label for="name">name</label>
@@ -43,7 +45,7 @@
       </div>
     </div>
     <div>
-      <a type="button" class="btn btn-default" href="./register.html"><i class="fa fa-user-plus"></i>&nbsp;Register Account</a>
+      <a type="button" class="btn btn-default" th:href="@{/user/register}"><i class="fa fa-user-plus"></i>&nbsp;Register Account</a>
     </div>
   </div>
 </body>

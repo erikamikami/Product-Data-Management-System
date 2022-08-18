@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -36,7 +37,8 @@
           </ul>
         </form>
         <p class="navbar-text navbar-right">
-          <span id="loginName">user: userName</span>
+        Hello! <span sec:authentication="name"></span>
+          <span id="loginName" ></span>
         </p>
       </div>
     </div>
@@ -103,11 +105,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="item : ${itemList}">
+          <tr th:each="item, status : ${itemList}">
             <td class="item-name"><a th:href="@{/item/detail?id=} + ${item.id}" th:text="${item.name}"></a></td>
             <td class="item-price" th:text="${item.price}"></td>
             <td class="item-category" th:text="${item.category}"></td>
-            <td class="item-brand"><a href="" th:text="${item.brandName}"></a></td>
+            <td class="item-brand" th:text="${item.brandName}"></td>
             <td class="item-condition" th:text="${item.condition}">3</td>
           </tr>
         </tbody>
@@ -115,40 +117,24 @@
     </div>
 
     <!-- pagination -->
-    <nav class="page-nav pager">
-      <form th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
+    <div class="container">
+    <nav class="page-nav pager row">
+      <form class="col-4" th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
         <input type="hidden" name="name" th:field="*{name}">
         <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
         <input type="hidden" name="childCategory" th:field="*{childCategory}">
         <input type="hidden" name="grandChild" th:field="*{grandChild}">
         <input type="hidden" name="brandName" th:field="*{brandName}">
-        <input type="hidden" name="page" th:value="${pagination.page-1}">
         <span th:if="${pagination.page}!=1">
-          <button>&larr; prev</button>
+          <button name="page" th:value="${pagination.page-1}">&larr; prev</button>
         </span>
-      </form>
-      
-      <form th:action="@{/item/list}" method="get" th:object="${itemSearchForm}">
-        <input type="hidden" name="name" th:field="*{name}">
-        <input type="hidden" name="parentCategory" th:field="*{parentCategory}">
-        <input type="hidden" name="childCategory" th:field="*{childCategory}">
-        <input type="hidden" name="grandChild" th:field="*{grandChild}">
-        <input type="hidden" name="brandName" th:field="*{brandName}">
-        <input type="hidden" name="page" th:value="${pagination.page+1}">
         <span th:if="${pagination.page} != ${pagination.totalPage} and ${pagination.totalPage} != 0">
-          <button>next &rarr;</button>
+          <button name="page" th:value="${pagination.page+1}">next &rarr;</button>
         </span>
       </form>
+      <div><p th:text="'Current page：' + ${pagination.page}"></p></div>
     </nav>
-<!--         <ul class="pager" th:field="${padination}">
-          <span th:if="${pagination.page}!=1">
-            <li class="previous"><a th:href="@{/item/list?page=} + ${pagination.page-1}">&larr; prev</a></li>
-          </span>
-          <span th:if="${pagination.page}!=${pagination.totalPage}">
-            <li class="next"><a th:href="@{/item/list?page=} + ${pagination.page+1}">next &rarr;</a></li>
-          </span>
-        </ul> -->
-      
+    </div>
     
       <!-- ページ番号を指定して表示するフォーム -->
       <div id="select-page">

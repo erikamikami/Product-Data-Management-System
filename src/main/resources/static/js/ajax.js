@@ -9,11 +9,19 @@ $(function() {
 		while (childCategoryOption.lastChild) {
 			childCategoryOption.removeChild(childCategoryOption.lastChild);
 		}
+		console.log(selectedParentCategory);
 
 		let grandCategory = document.getElementById("grandCategory");
 		while(grandCategory.lastChild){
 			grandCategory.removeChild(grandCategory.lastChild);
 		};
+		console.log(grandCategory);
+		
+		let token = $("meta[name='_csrf']").attr("content"); //①
+        　let header = $("meta[name='_csrf_header']").attr("content"); //②
+        　$(document).ajaxSend(function(e, xhr, options) { //③
+        　　xhr.setRequestHeader(header, token);
+        　});
 
 		$.ajax({
 			url: url,

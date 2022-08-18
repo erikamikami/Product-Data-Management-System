@@ -11,4 +11,9 @@
   WHERE name = #{name}
 </select>
 
+<insert id="insert">
+  INSERT INTO users (id, name, password, authority)
+  VALUES (#{id}, #{name}, #{password}, #{authority})
+</insert>
+
 </mapper>
