@@ -12,5 +12,11 @@ public interface UserRepository {
 	 * @return
 	 */
 	public User findByName(String name);
+	
+	/**
+	 * userを新規登録
+	 * @param user
+	 */
+	public void insert(User user);
 
 }

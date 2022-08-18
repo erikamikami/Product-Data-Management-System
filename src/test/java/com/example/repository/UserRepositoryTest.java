@@ -1,7 +1,6 @@
 package com.example.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -54,7 +53,23 @@ class UserRepositoryTest {
 		System.out.println(actual);
 		
 		// 結果
-		assertEquals(expected, actual);
+		assertEquals(expected.toString(), actual.toString());
+	}
+	
+	@Test
+	@DisplayName("insertできているか")
+	public void insertTest() {
+		// 登録内容
+		String name = "斎藤";
+		User user = new User("03", name, "Password1", "USER");
+		
+		
+		// 登録
+		userRepository.insert(user);
+		
+		// 結果
+		User actual = userRepository.findByName(name);
+		assertEquals(user.toString(), actual.toString());
 	}
 
 }

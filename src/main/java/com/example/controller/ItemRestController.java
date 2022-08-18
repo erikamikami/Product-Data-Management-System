@@ -23,7 +23,7 @@ public class ItemRestController {
 	@RequestMapping("/getChildCategory")
 	public Set<String> getChildCategory(String parentCategory){
 		Set<String> childCategoryList = categoryService.getChildCategory(parentCategory);
-		
+		System.out.println("childCategoryListは、" + childCategoryList);
 		return childCategoryList;
 	}
 	
