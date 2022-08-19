@@ -13,7 +13,6 @@ import com.example.repository.UserRepository;
 
 public class CustomAbstractUserDetailsAuthenticationProvider 
 extends AbstractUserDetailsAuthenticationProvider
-//implements AuthenticationProvider
 {
 	
 	@Autowired
@@ -22,24 +21,6 @@ extends AbstractUserDetailsAuthenticationProvider
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	// implements AuthenticationProvider の方
-//	@Override
-//	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-//		String name = (String) authentication.getPrincipal();
-//		String password = (String) authentication.getCredentials();
-//		System.out.println("name:" + name);
-//		System.out.println("password:" + password);
-//		return null;
-//	}
-//
-//	@Override
-//	public boolean supports(Class<?> authentication) {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-
-	
-	// extends AbstractUserDetailsAuthenticationProvider の方
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {}
