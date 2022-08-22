@@ -1,0 +1,42 @@
+▼ 検索を行うSQL インデックス張る前
+"Gather  (cost=1000.00..63801.25 rows=1 width=243) (actual time=156.745..184.737 rows=1 loops=1)"
+"  Workers Planned: 2"
+"  Workers Launched: 2"
+"  ->  Parallel Seq Scan on items  (cost=0.00..62801.15 rows=1 width=243) (actual time=131.672..131.672 rows=0 loops=3)"
+"        Filter: ((name ~~ '%Razer%'::text) AND (brand_name ~~ '%Razer%'::text) AND (category = 'Beauty/Fragrance/Kids'::text))"
+"        Rows Removed by Filter: 494179"
+"Planning Time: 0.111 ms"
+"Execution Time: 184.752 ms"
+
+▼ 検索を行うSQL category列にのみインデックス作成
+"Bitmap Heap Scan on items  (cost=20.85..2192.06 rows=1 width=243) (actual time=0.613..0.614 rows=1 loops=1)"
+"  Recheck Cond: (category = 'Beauty/Fragrance/Kids'::text)"
+"  Filter: ((name ~~ '%Razer%'::text) AND (brand_name ~~ '%Razer%'::text))"
+"  Rows Removed by Filter: 87"
+"  Heap Blocks: exact=88"
+"  ->  Bitmap Index Scan on items_category_idx  (cost=0.00..20.85 rows=590 width=0) (actual time=0.060..0.060 rows=88 loops=1)"
+"        Index Cond: (category = 'Beauty/Fragrance/Kids'::text)"
+"Planning Time: 0.347 ms"
+"Execution Time: 0.625 ms"
+
+▼ 検索を行うSQL name列にインデックス追加作成
+"Bitmap Heap Scan on items  (cost=20.85..2192.06 rows=1 width=243) (actual time=0.152..0.153 rows=1 loops=1)"
+"  Recheck Cond: (category = 'Beauty/Fragrance/Kids'::text)"
+"  Filter: ((name ~~ '%Razer%'::text) AND (brand_name ~~ '%Razer%'::text))"
+"  Rows Removed by Filter: 87"
+"  Heap Blocks: exact=88"
+"  ->  Bitmap Index Scan on items_category_idx  (cost=0.00..20.85 rows=590 width=0) (actual time=0.033..0.034 rows=88 loops=1)"
+"        Index Cond: (category = 'Beauty/Fragrance/Kids'::text)"
+"Planning Time: 0.829 ms"
+"Execution Time: 0.175 ms"
+
+▼ 検索を行うSQL brand_name列にインデックス追加作成
+"Bitmap Heap Scan on items  (cost=20.85..2192.06 rows=1 width=243) (actual time=0.091..0.091 rows=1 loops=1)"
+"  Recheck Cond: (category = 'Beauty/Fragrance/Kids'::text)"
+"  Filter: ((name ~~ '%Razer%'::text) AND (brand_name ~~ '%Razer%'::text))"
+"  Rows Removed by Filter: 87"
+"  Heap Blocks: exact=88"
+"  ->  Bitmap Index Scan on items_category_idx  (cost=0.00..20.85 rows=590 width=0) (actual time=0.018..0.018 rows=88 loops=1)"
+"        Index Cond: (category = 'Beauty/Fragrance/Kids'::text)"
+"Planning Time: 0.449 ms"
+"Execution Time: 0.106 ms"
